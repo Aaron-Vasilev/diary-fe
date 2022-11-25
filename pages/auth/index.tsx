@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Layout } from '../../components/Layout'
 import { Input } from '../../components/Input'
-import { authApi } from '../api/authApi'
+import { useAppDispatch } from '../../store/store'
+import { login } from '../../store/slices/main'
 
 function Auth() {
-  const [login, setLogin] = useState('')
+  const dispatch = useAppDispatch()
+  const [email, setLogin] = useState('')
   const [password, setPassword] = useState('')
 
   function loginHandler(value: string) {
@@ -15,8 +17,8 @@ function Auth() {
     setPassword(value)
   }
 
-  function logIn() {
-    authApi.login('@@@', '123')
+  async function logIn() {
+    await dispatch(login({ email, password }))
   }
 
   return (
@@ -25,7 +27,7 @@ function Auth() {
         <div className="flex flex-col border-sky-400">
           <label>
             <p>Login</p>
-            <Input value={login} hander={loginHandler}/> 
+            <Input value={email} hander={loginHandler}/> 
           </label>
           <label>
             <p>Password</p>

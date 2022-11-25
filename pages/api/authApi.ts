@@ -1,3 +1,4 @@
+import { Login } from '../../store/slices/main'
 import { Api } from './axios'
 
 interface LoginResponse {
@@ -9,9 +10,8 @@ class AuthApi extends Api {
 
   accessToken = 'accessToken'
 
-  async login(email: string, password: string): Promise<LoginResponse> {
-    const options = { email, password }
-    const { userId, name, token } = await this.post('login', options)
+  async login(data: Login): Promise<LoginResponse> {
+    const { userId, name, token } = await this.post('login', data)
 
     this.setHeader('Authorization', token)
     this.setToken(this.accessToken, token)

@@ -1,11 +1,13 @@
-import { useQueryClient } from "@tanstack/react-query"
-
 import { useEffect } from "react";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export function Question() {
+  const userId = useSelector((state: RootState) => state.main.userId)
 
-  return <h1>Daily question</h1>
+  return (
+    <div>
+      <h1>Daily question for User: #${userId}</h1>
+    </div>
+  )
 }
-
-

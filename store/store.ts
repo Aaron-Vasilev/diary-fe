@@ -8,6 +8,7 @@ export const store = configureStore({
     main: mainSlice.reducer,
     note: noteSlice.reducer,
   },
+  devTools: true
 })
 
 export type RootState = ReturnType<typeof store.getState>

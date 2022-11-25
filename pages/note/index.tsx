@@ -1,19 +1,14 @@
-import { ChangeEvent, createRef, useEffect, useRef, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Question } from '../components/Question'
-import { Layout } from '../components/Layout'
-import { NotesHistory } from '../components/NotesHistory'
-import { addNote } from '../store/slices/note'
-import { RootState } from '../store/store'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { Question } from '../../components/Question'
+import { Layout } from '../../components/Layout'
+import { NotesHistory } from '../../components/NotesHistory'
 
 export default function Home() {
-  //const dispatch = useDispatch()
   const [newNote, setNote] = useState<string>('')
   const [date, setDate] = useState<string>('')
 
   const textareaRef = useRef<HTMLTextAreaElement>()
   function add(): void {
-    //dispatch(addNote(newNote))
     setNote('')
   }
 
@@ -52,3 +47,4 @@ export default function Home() {
     </Layout>
   )
 }
+
