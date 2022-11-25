@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "jsx-quotes": ["error", "prefer-double"],
+    "object-curly-spacing": "off",
+    "indent": ["error", 2]
+  },
+  "extends": ["next"]
+}
