@@ -7,7 +7,7 @@ export function Question() {
 
   return (
     <div>
-      <h1>Daily question for User: #${userId}</h1>
+      <h1>Daily question for User: #{userId}</h1>
     </div>
   )
 }

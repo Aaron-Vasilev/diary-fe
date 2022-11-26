@@ -1,9 +1,13 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import Router from 'next/router'
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react'
 import { Question } from '../../components/Question'
 import { Layout } from '../../components/Layout'
 import { NotesHistory } from '../../components/NotesHistory'
+import { RootState } from '../../store/store'
+import { useSelector } from 'react-redux'
 
 export default function Home() {
+  const userId = useSelector((state: RootState) => state.main.userId)
   const [newNote, setNote] = useState<string>('')
   const [date, setDate] = useState<string>('')
 
@@ -26,12 +30,12 @@ export default function Home() {
   }
 
   useEffect(() => {
-
-
-  }, [])
+    if (userId === 0)
+      Router.push('/auth')
+  }, [userId])
 
   return (
-    <Layout>
+    <Fragment>
       <Question/>
       <NotesHistory/>
       <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
@@ -44,7 +48,7 @@ export default function Home() {
       <button onClick={add}>Add</button>
       <button onClick={setTodaysDate}>Set Today&apos;s Date</button>
       <button onClick={() => console.log(textareaRef.current.scrollHeight)}>LOG</button>
-    </Layout>
+    </Fragment>
   )
 }
 

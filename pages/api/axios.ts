@@ -12,7 +12,7 @@ export class Api {
   }
 
   async makeRequest(method: string, url: string, options: any = {}) {
-    const { data } = await this.instance({
+    const config = {
       data: {
         ...options
       },
@@ -21,9 +21,13 @@ export class Api {
       headers: {
         ...this.headers
       }
-    })
-
+    }
+    const { data } = await this.instance(config)
     return data
+  }
+
+  async get(url: string) {
+    return this.makeRequest('get', url)
   }
 
   async post(url: string, options: any) {

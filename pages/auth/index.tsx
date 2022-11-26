@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Layout } from '../../components/Layout'
 import { Input } from '../../components/Input'
-import { useAppDispatch } from '../../store/store'
+import { RootState, useAppDispatch } from '../../store/store'
 import { login } from '../../store/slices/main'
+import { useSelector } from 'react-redux'
+import Router from 'next/router'
 
 function Auth() {
   const dispatch = useAppDispatch()
+  const userId = useSelector((state: RootState) => state.main.userId)
   const [email, setLogin] = useState('')
   const [password, setPassword] = useState('')
 
@@ -17,12 +20,17 @@ function Auth() {
     setPassword(value)
   }
 
-  async function logIn() {
-    await dispatch(login({ email, password }))
+  function logIn() {
+    dispatch(login({ email, password }))
   }
 
+  useEffect(() => {
+    if (userId !== 0)
+      Router.push('/note')
+  },[userId])
+
   return (
-    <Layout>
+    <Fragment>
       <div className="w-screen flex justify-content-center pt-2">
         <div className="flex flex-col border-sky-400">
           <label>
@@ -36,8 +44,7 @@ function Auth() {
           <button onClick={logIn}>Login</button>
         </div>
       </div>
-
-    </Layout>
+    </Fragment>
   )
 }
 
