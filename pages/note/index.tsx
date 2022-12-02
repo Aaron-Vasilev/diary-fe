@@ -1,7 +1,6 @@
 import Router from 'next/router'
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react'
 import { Question } from '../../components/Question'
-import { Layout } from '../../components/Layout'
 import { NotesHistory } from '../../components/NotesHistory'
 import { RootState } from '../../store/store'
 import { useSelector } from 'react-redux'
@@ -47,7 +46,6 @@ export default function Home() {
       />
       <button onClick={add}>Add</button>
       <button onClick={setTodaysDate}>Set Today&apos;s Date</button>
-      <button onClick={() => console.log(textareaRef.current.scrollHeight)}>LOG</button>
     </Fragment>
   )
 }

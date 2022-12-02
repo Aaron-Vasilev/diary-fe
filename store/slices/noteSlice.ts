@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface Note {
-  id: number
-  text: string
+  noteId: number
+  noteText: string
+  createdDate: string
+  questionId: number
 }
 
 interface InitialState {
-  prevNotes: Array<Note>
+  notes: Array<Note>
 }
 
 const initialState: InitialState = {
-  prevNotes: [],
+  notes: [],
 }
 
 export const noteSlice = createSlice({
@@ -18,7 +20,7 @@ export const noteSlice = createSlice({
   initialState,
   reducers: {
     addNote: (state, action) => {
-      state.prevNotes = [...state.prevNotes, action.payload]
+      state.notes = [...state.notes, action.payload]
     },
   },
 })

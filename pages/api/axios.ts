@@ -1,28 +1,26 @@
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 
 export class Api {
   instance = axios.create({
     baseURL: 'http://localhost:8080/'
   })
 
-  headers = {}
-
-  setHeader(key: string, value: string) {
-    this.headers[key] = value
-  }
+  accessToken = 'accessToken'
 
   async makeRequest(method: string, url: string, options: any = {}) {
-    const config = {
+    const config: AxiosRequestConfig = {
       data: {
         ...options
       },
       method,
       url,
       headers: {
-        ...this.headers
+        Authorization: this.getFromStorage(this.accessToken)
       }
     }
-    const { data } = await this.instance(config)
+
+    const { data } = await this.instance(url, config )
+
     return data
   }
 
@@ -33,4 +31,13 @@ export class Api {
   async post(url: string, options: any) {
     return this.makeRequest('post', url, options)
   }
+
+  getFromStorage(key: string) {
+    return localStorage.getItem(key)
+  }
+
+  setToStorage(key: string, token: string) {
+    localStorage.setItem(key, token)
+  }
+
 }

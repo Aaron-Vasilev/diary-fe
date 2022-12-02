@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../store/store'
-import { init } from '../store/slices/main'
+import { init } from '../store/slices/mainSlice'
 import { Layout } from '../components/Layout'
 
 export function Main({ Component, pageProps }) {

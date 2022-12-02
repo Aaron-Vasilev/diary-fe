@@ -18,9 +18,9 @@ export interface Login {
   password: string
 }
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<void, Login>(
   '/login',
-  async (loginData: Login, thunkApi) => {
+  async (loginData, thunkApi) => {
     const data = await authApi.login(loginData)
 
     thunkApi.dispatch({ type: 'main/setUser', payload: data })
@@ -33,6 +33,7 @@ export const mainSlice = createSlice({
   reducers: {
     init: (state) => {
       const { userId, name } = authApi.init()
+
       state.userId = userId
       state.userName = name
     },

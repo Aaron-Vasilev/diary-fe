@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { Login } from '../../store/slices/main'
+import { Login } from '../../store/slices/mainSlice'
 import { Api } from './axios'
 
 interface LoginResponse {
@@ -9,13 +9,18 @@ interface LoginResponse {
 
 class AuthApi extends Api {
 
-  accessToken = 'accessToken'
+  async login(data: Login): Promise<LoginResponse> {
+    const { userId, name, token } = await this.post('login', data)
 
-  init(): LoginResponse {
+    this.setToStorage(this.accessToken, token)
+
+    return { userId, name }
+  }
+
+  init() {
     const token = this.getFromStorage(this.accessToken)
 
     if (token) {
-      this.setHeader('Authorization', token)
       // @ts-ignore
       const { userId } = jwt.decode(token.split(' ')[1])
 
@@ -23,23 +28,6 @@ class AuthApi extends Api {
     }
 
     return { userId: 0, name: '' }
-  }
-
-  async login(data: Login): Promise<LoginResponse> {
-    const { userId, name, token } = await this.post('login', data)
-
-    this.setHeader('Authorization', token)
-    this.setToStorage(this.accessToken, token)
-
-    return { userId, name }
-  }
-
-  getFromStorage(key: string) {
-    return localStorage.getItem(key)
-  }
-
-  setToStorage(key: string, token: string) {
-    localStorage.setItem(key, token)
   }
 }
 

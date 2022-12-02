@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Layout } from '../../components/Layout'
 import { Input } from '../../components/Input'
 import { RootState, useAppDispatch } from '../../store/store'
-import { login } from '../../store/slices/main'
+import { login } from '../../store/slices/mainSlice'
 import { useSelector } from 'react-redux'
 import Router from 'next/router'
 
