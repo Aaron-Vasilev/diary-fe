@@ -7,12 +7,13 @@ export function Question() {
   const dispatch = useAppDispatch()
   const userId = useSelector((state: RootState) => state.main.userId)
   const questionText = useSelector((state: RootState) => state.question.text)
+  const selectedDate = useSelector((state: RootState) => state.note.selectedDate)
   
   useEffect(() => {
-    if (userId !== 0) {
+    if (userId !== 0 && selectedDate !== '') {
       dispatch(getQuestion())
     } 
-  }, [userId, dispatch])
+  }, [dispatch, userId, selectedDate])
 
   return (
     <div>

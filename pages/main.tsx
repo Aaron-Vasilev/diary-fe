@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../store/store'
 import { init } from '../store/slices/mainSlice'
 import { Layout } from '../components/Layout'
+import { setSelectedDate } from '../store/slices/noteSlice'
+import { today } from '../lib/currentDate'
 
 export function Main({ Component, pageProps }) {
   const dispatch = useAppDispatch()
@@ -10,6 +12,7 @@ export function Main({ Component, pageProps }) {
   
   useEffect(() => {
     dispatch(init())
+    dispatch(setSelectedDate(today()))
   }, [dispatch])
 
   return (

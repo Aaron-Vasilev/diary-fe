@@ -6,13 +6,12 @@ interface InitialState {
   questionId: number
   text: string
   questionDate: string
-  selectedDate: string
 }
 
 export const getQuestion = createAsyncThunk<void, null, { state: RootState }>(
   '/getQuestion',
   async (_, thunkApi) => {
-    const shownDate = thunkApi.getState().question.selectedDate
+    const shownDate = thunkApi.getState().note.selectedDate
     const data = await questionApi.getQuestion(shownDate)
 
     thunkApi.dispatch({ type: 'question/setQuestion', payload: data })
@@ -23,7 +22,6 @@ const initialState: InitialState = {
   questionId: 0,
   text: 'Daily question',
   questionDate: '',
-  selectedDate: '',
 }
 
 export const questionSlice = createSlice({
@@ -33,7 +31,7 @@ export const questionSlice = createSlice({
     setQuestion: (state, action: Action<GetQuestionRes>) => {
       state.questionId = action.payload.id
       state.questionDate = action.payload.shownDate
-      state.text = action.payload.text
+      state.text = action.payload.text ?? state.text
     },
   },
 })

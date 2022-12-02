@@ -11,12 +11,12 @@ export interface Note {
 
 interface InitialState {
   notes: Array<Note>
-  currentDate: string
+  selectedDate: string
 }
 
 const initialState: InitialState = {
   notes: [],
-  currentDate: '',
+  selectedDate: '',
 }
 
 export const noteSlice = createSlice({
@@ -26,13 +26,13 @@ export const noteSlice = createSlice({
     pushNote: (state, action) => {
       state.notes = [...state.notes, action.payload]
     },
-    setCurrDate: (state, action) => {
-      state.currentDate = action.payload
+    setSelectedDate: (state, action) => {
+      state.selectedDate = action.payload
     },
   },
 })
 
-export const { pushNote, setCurrDate } = noteSlice.actions
+export const { pushNote, setSelectedDate } = noteSlice.actions
 
 export const getNotes = createAsyncThunk<void, null, { state: RootState }>(
   '/getNotes',
@@ -48,7 +48,7 @@ export const addNote = createAsyncThunk<void, string, { state: RootState }>(
   '/addNote',
   async (text, thunkApi) => {
     const questionId = thunkApi.getState().question.questionId
-    const createdDate = thunkApi.getState().note.currentDate
+    const createdDate = thunkApi.getState().note.selectedDate
 
     const newNote: Note = { 
       noteId: 0, 
