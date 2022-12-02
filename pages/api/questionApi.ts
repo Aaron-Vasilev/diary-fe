@@ -9,8 +9,8 @@ export interface GetQuestionRes {
 
 class QuestionApi extends Api {
 
-  async getQuestion(shownDate : { shownDate : string }): Promise<GetQuestionRes> {
-    return await this.post('question', shownDate)
+  async getQuestion(shownDate: string): Promise<GetQuestionRes> {
+    return await this.post('get-question', { shownDate })
   }
 }
 

@@ -9,10 +9,11 @@ interface InitialState {
   selectedDate: string
 }
 
-export const getQuestion = createAsyncThunk<void, string, { state: RootState }>(
+export const getQuestion = createAsyncThunk<void, null, { state: RootState }>(
   '/getQuestion',
-  async (shownDate, thunkApi) => {
-    const data = await questionApi.getQuestion({ shownDate })
+  async (_, thunkApi) => {
+    const shownDate = thunkApi.getState().question.selectedDate
+    const data = await questionApi.getQuestion(shownDate)
 
     thunkApi.dispatch({ type: 'question/setQuestion', payload: data })
   }

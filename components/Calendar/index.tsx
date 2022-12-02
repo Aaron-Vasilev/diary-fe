@@ -1,21 +1,17 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getNotes } from "../../store/slices/noteSlice";
 import { RootState, useAppDispatch } from "../../store/store";
 
-export function NotesHistory() {
+export function Calendar() {
   const dispatch = useAppDispatch()
   const userId = useSelector((state: RootState) => state.main.userId)
 
   useEffect(() => {
-    if (userId !== 0) {
-      dispatch(getNotes())
-    } 
-  }, [userId, dispatch])
+  }, [dispatch])
 
   return (
     <>
-      <h3 className="text-base">NotesHistory</h3>
+      <h3 className="text-base">Calendar</h3>
     </>
   )
 }

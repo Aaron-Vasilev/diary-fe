@@ -10,14 +10,14 @@ export function Question() {
   
   useEffect(() => {
     if (userId !== 0) {
-      dispatch(getQuestion('2022-11-29'))
+      dispatch(getQuestion())
     } 
   }, [userId, dispatch])
 
   return (
     <div>
-      <h1>Daily queTextn for User: #{userId}</h1>
-      <h2>{questionText}</h2>
+      <h3 className="text-base">Daily question for User: #{userId}</h3>
+      <h2 className="text-lg pl-4">{questionText}</h2>
     </div>
   )
 }
