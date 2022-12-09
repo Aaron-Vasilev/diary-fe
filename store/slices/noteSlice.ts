@@ -15,7 +15,19 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  notes: [],
+  notes: [
+    {
+      noteId: 1,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime vero perspiciatis ab ratione quisquam excepturi sed cumque eius voluptatibus deserunt?',
+      createdDate: '2022-12-09',
+      questionId: 1
+    }, {
+      noteId: 1,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime vero perspiciatis ab ratione quisquam excepturi sed cumque eius voluptatibus deserunt? Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi et nisi cum quibusdam deserunt dolorum unde officia voluptates eligendi aspernatur doloremque quidem temporibus sed, impedit ad aut quia ratione nobis, natus quas praesentium repudiandae? Illo beatae placeat accusamus repellat quae tempora consectetur animi itaque aliquam distinctio, quidem quod laboriosam ut ducimus aliquid voluptatem ipsam? Vero cum qui natus ex! Laborum, delectus iusto tempore reiciendis sed consequatur accusantium eum saepe vel porro quibusdam atque id aperiam itaque quia modi sequi quidem quod! Repudiandae voluptates sapiente nemo, quae aspernatur quas quod alias aliquid, officia officiis accusantium, molestias quisquam sed aperiam reprehenderit ex.dd',
+      createdDate: '2021-12-09',
+      questionId: 1
+    }
+  ],
   selectedDate: '',
 }
 

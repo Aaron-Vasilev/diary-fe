@@ -26,18 +26,20 @@ export default function Note() {
   }, [userId])
 
   return (
-    <>
-      <Calendar/>
+    <div
+      className="grid grid-cols-2 gap-4"
+    >
       <Question/>
+      <Calendar/>
       <NotesHistory/>
       <textarea 
-        className="resize-none rounded-sm border-8 border-solid border-primary shadow-xl" 
+        className="col-span-2 row-start-3 resize-none border-8 border-solid border-primary shadow-xl" 
         value={newNote} 
         onInput={onTextareaChange}
         ref={textareaRef}
       />
       <Button handler={() => {}} label={'Add'}/>
-    </>
+    </div>
   )
 }
 

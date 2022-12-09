@@ -19,7 +19,7 @@ export function Calendar() {
 
   return (
     <input 
-      className={styles.calendar + " bg-secondary border-2 border-black shadow-xl font-Lilita text-3xl"}
+      className={styles.calendar + " bg-secondary border-2 border-black shadow-xl font-Lilita text-3xl justify-self-end outline-primary"}
       type="date"
       value={selectedDate} 
       onChange={(e) => dateHandler(e.target.value)}

@@ -9,7 +9,6 @@ body {
   font-family: "Inria Sans", Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   height: 100%;
-  width: 100%;
   background-image: linear-gradient(to bottom right, rgba(25, 0, 255, 0.075), rgba(242, 255, 0, 0.211));
 }
 

@@ -18,8 +18,8 @@ export function Question() {
 
   return (
     <div>
-      <h3 className="text-xl">#{userId} {firstName}&apos;s daily question</h3>
-      <h2 className="text-2xl pl-4">{questionText}</h2>
+      <h3 className="text-xl underline underline-offset-4">#{userId} {firstName}&apos;s daily question</h3>
+      <h2 className="pl-4 text-2xl">{questionText}</h2>
     </div>
   )
 }
