@@ -1,0 +1,17 @@
+.calendar {
+  color: white;
+  max-width: fit-content;
+  padding: 0.5rem 0.5rem;
+}
+
+.calendar:focus{
+  outline-color: black;
+  outline-style: dashed;
+  outline-width: 3px;
+}
+
+.calendar::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  width: 2.6rem;
+  height: 2.6rem;
+}

@@ -2,32 +2,35 @@ import jwt from 'jsonwebtoken'
 import { Login } from '../../store/slices/mainSlice'
 import { Api } from './axios'
 
-interface LoginResponse {
+interface UserData {
   userId: number
-  name: string
+  firstName: string
+  secondName: string
 }
 
 class AuthApi extends Api {
 
-  async login(data: Login): Promise<LoginResponse> {
-    const { userId, name, token } = await this.post('login', data)
+  async login(data: Login): Promise<UserData> {
+    const { token } = await this.post('login', data)
 
     this.setToStorage(this.accessToken, token)
-
-    return { userId, name }
+    return this.init()
   }
 
-  init() {
+  init(): UserData {
     const token = this.getFromStorage(this.accessToken)
+    const userData = { userId: 0, firstName: '', secondName: '' }
 
     if (token) {
       // @ts-ignore
-      const { userId } = jwt.decode(token.split(' ')[1])
+      const { userId, firstName, secondName } = jwt.decode(token.split(' ')[1])
 
-      return { userId, name: '' }
+      userData.userId = userId
+      userData.firstName = firstName
+      userData.secondName = secondName
     }
 
-    return { userId: 0, name: '' }
+    return userData
   }
 }
 

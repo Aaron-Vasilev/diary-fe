@@ -4,13 +4,15 @@ import { authApi } from '../../pages/api/authApi'
 interface InitialState {
   isLoading: boolean
   userId: number
-  userName: string
+  firstName: string
+  secondName: string
 }
 
 const initialState: InitialState = {
   isLoading: false,
   userId: 0,
-  userName: '',
+  firstName: '',
+  secondName: '',
 }
 
 export interface Login {
@@ -32,14 +34,16 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     init: (state) => {
-      const { userId, name } = authApi.init()
+      const { userId, firstName, secondName } = authApi.init()
 
       state.userId = userId
-      state.userName = name
+      state.firstName = firstName
+      state.secondName = firstName
     },
     setUser: (state, action) => {
       state.userId = action.payload.userId
-      state.userName = action.payload.userName
+      state.firstName = action.payload.firstName
+      state.secondName = action.payload.secondName
     },
   },
   extraReducers: (builder) => {

@@ -4,5 +4,8 @@
     "object-curly-spacing": "off",
     "indent": ["error", 2]
   },
-  "extends": ["next"]
+  "extends": [
+    "next",
+    "plugin:tailwindcss/recommended"
+  ]
 }

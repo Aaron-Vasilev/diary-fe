@@ -25,7 +25,7 @@ function Auth() {
 
   useEffect(() => {
     if (userId !== 0)
-      Router.push('/note')
+      Router.push('/diary')
   },[userId])
 
   return (

@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
+import styles from './Calendar.module.css'
 import { today } from "../../lib/currentDate";
 import { setSelectedDate } from "../../store/slices/noteSlice";
 import { RootState, useAppDispatch } from "../../store/store";
@@ -17,9 +18,11 @@ export function Calendar() {
   }, [dispatch, dateHandler])
 
   return (
-    <>
-      <input type="date" value={selectedDate} onChange={(e) => dateHandler(e.target.value)} />
-      {/* <button onClick={setTodaysDate}>Set Today&apos;s Date</button> */}
-    </>
+    <input 
+      className={styles.calendar + " bg-secondary border-2 border-black shadow-xl font-Lilita text-3xl"}
+      type="date"
+      value={selectedDate} 
+      onChange={(e) => dateHandler(e.target.value)}
+    />
   )
 }
