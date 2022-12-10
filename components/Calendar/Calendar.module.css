@@ -1,5 +1,6 @@
 .calendar {
   color: white;
+  height: fit-content;
   max-width: fit-content;
   padding: 0.5rem 0.5rem;
 }

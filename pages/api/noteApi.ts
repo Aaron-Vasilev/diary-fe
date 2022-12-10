@@ -1,21 +1,14 @@
 import { Api } from './axios'
 import { Note } from '../../store/slices/noteSlice'
 
-export interface GetNotesRes {
-  noteId: number
-  questionId: number
-  text: string
-  createdDate: string
-}
-
 class NoteApi extends Api {
 
-  async getNotes(questionId: number): Promise<GetNotesRes> {
-    return await this.post('get-notes', { questionId })
+  async getNotes(userId: number, questionId: number): Promise<Note[]> {
+    return await this.post('get-notes', { userId, questionId })
   }
 
-  async addNote(newNote: Note): Promise<GetNotesRes> {
-    return await this.post('get-notes', newNote)
+  async addNote(newNote: Note): Promise<Note> {
+    return await this.post('add-note', newNote)
   }
 }
 

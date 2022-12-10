@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../store/store'
 import { init } from '../store/slices/mainSlice'
 import { Layout } from '../components/Layout'
-import { setSelectedDate } from '../store/slices/noteSlice'
+import { setCurrentDate, setSelectedDate } from '../store/slices/noteSlice'
 import { today } from '../lib/currentDate'
 
 export function Main({ Component, pageProps }) {
@@ -11,8 +11,10 @@ export function Main({ Component, pageProps }) {
   const isLoading = useSelector((state: RootState) => state.main.isLoading)
   
   useEffect(() => {
+    const date = today()
     dispatch(init())
-    dispatch(setSelectedDate(today()))
+    dispatch(setCurrentDate(date))
+    dispatch(setSelectedDate(date))
   }, [dispatch])
 
   return (
