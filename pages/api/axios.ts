@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios"
 
 export class Api {
   instance = axios.create({
-    baseURL: 'http://localhost:8080/'
+    baseURL: 'http://localhost:8080/',
   })
 
   accessToken = 'accessToken'
@@ -10,16 +10,16 @@ export class Api {
   async makeRequest(method: string, url: string, options: any = {}) {
     const config: AxiosRequestConfig = {
       data: {
-        ...options
+        ...options,
       },
       method,
       url,
       headers: {
-        Authorization: this.getFromStorage(this.accessToken)
-      }
+        Authorization: this.getFromStorage(this.accessToken),
+      },
     }
 
-    const { data } = await this.instance(url, config )
+    const { data } = await this.instance(url, config)
 
     return data
   }
@@ -40,4 +40,7 @@ export class Api {
     localStorage.setItem(key, token)
   }
 
+  removeFromStorage(key: string) {
+    localStorage.getItem(key)
+  }
 }

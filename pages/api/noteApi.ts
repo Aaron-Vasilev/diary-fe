@@ -2,6 +2,7 @@ import { Api } from './axios'
 import { Note } from '../../store/slices/noteSlice'
 
 class NoteApi extends Api {
+  newNote = 'newNote'
 
   async getNotes(userId: number, questionId: number): Promise<Note[]> {
     return await this.post('get-notes', { userId, questionId })

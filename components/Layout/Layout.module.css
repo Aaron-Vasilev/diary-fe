@@ -1,0 +1,10 @@
+.header {
+  width: calc(100% - 3rem);
+}
+
+.header h1 {
+  background-image: linear-gradient(to bottom right, rgb(255, 0, 251), rgb(244, 255, 27));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
