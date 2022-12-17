@@ -45,7 +45,7 @@ export function CreateNote() {
         onInput={saveToStorage}
         contentEditable
       />
-      <Button handler={add} label={'Add'}/>
+      <Button handler={add} label={'Add'} size="M"/>
     </>
   )
 }

@@ -43,7 +43,7 @@ export const noteSlice = createSlice({
       state.notes = action.payload
       state.loading = false
     })
-    builder.addCase(getNotes.rejected, (state, action) => {
+    builder.addCase(getNotes.rejected, (state) => {
       state.loading = false
     })
     builder.addCase(addNote.pending, (state) => {
@@ -54,7 +54,7 @@ export const noteSlice = createSlice({
       state.notes = [...state.notes, action.payload] 
       state.loading = false
     })
-    builder.addCase(addNote.rejected, (state, action) => {
+    builder.addCase(addNote.rejected, (state) => {
       state.loading = false
     }) },
 })

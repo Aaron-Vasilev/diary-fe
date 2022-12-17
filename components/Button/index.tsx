@@ -7,9 +7,13 @@ interface PropType {
 }
 
 export function Button({label, handler, size = 'S'}: PropType) {
+  const style = size === 'S' ? "h-8 min-w-16 text-xl" : 
+    size === 'M' ? "h-14 min-w-24 text-3xl" : 
+      size === 'L' && "h-18 w-32 text-5xl"
+    
   return (
     <button
-      className="h-14 w-24 border-2 border-black bg-secondary font-Lilita text-3xl text-white shadow-m"
+      className={style + " px-1 border-2 border-black bg-secondary font-Lilita text-white shadow-m outline-primary"}
       onClick={handler}
     >
       {label}

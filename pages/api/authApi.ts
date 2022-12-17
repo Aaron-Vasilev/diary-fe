@@ -9,12 +9,14 @@ interface UserData {
 }
 
 class AuthApi extends Api {
+  async login(data: Login): Promise<UserData | void> {
+    try {
+      const { token } = await this.post('login', data)
 
-  async login(data: Login): Promise<UserData> {
-    const { token } = await this.post('login', data)
-
-    this.setToStorage(this.accessToken, token)
-    return this.init()
+      this.setToStorage(this.accessToken, token)
+      return this.init()
+    } catch (e) {
+    }
   }
 
   init(): UserData {

@@ -20,15 +20,6 @@ export interface Login {
   password: string
 }
 
-export const login = createAsyncThunk<void, Login>(
-  '/login',
-  async (loginData, thunkApi) => {
-    const data = await authApi.login(loginData)
-
-    thunkApi.dispatch({ type: 'main/setUser', payload: data })
-  }
-)
-
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
@@ -38,7 +29,7 @@ export const mainSlice = createSlice({
 
       state.userId = userId
       state.firstName = firstName
-      state.secondName = firstName
+      state.secondName = secondName
     },
     setUser: (state, action) => {
       state.userId = action.payload.userId
@@ -47,10 +38,13 @@ export const mainSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state, action) => {
+    builder.addCase(login.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(login.fulfilled, (state, action) => {
+    builder.addCase(login.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    builder.addCase(login.rejected, (state) => {
       state.isLoading = false
     })
   }
@@ -58,3 +52,15 @@ export const mainSlice = createSlice({
 
 export const { setUser, init } = mainSlice.actions
 
+export const login = createAsyncThunk<void, Login>(
+  '/login',
+  async (loginData, thunkApi) => {
+    const data = await authApi.login(loginData)
+    
+    if (data) {
+      thunkApi.dispatch({ type: 'main/setUser', payload: data })
+    } else {
+      return thunkApi.rejectWithValue(data)
+    }
+  }
+)

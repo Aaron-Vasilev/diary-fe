@@ -12,7 +12,7 @@ export default function Note() {
 
   useEffect(() => {
     if (userId === 0)
-      Router.push('/auth')
+      Router.push('/login')
   }, [userId])
 
   return (
