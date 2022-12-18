@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux'
-import { Main } from './main'
+import { Main } from '../components/Main'
 import { store, RootState } from '../store/store'
 import '../styles/globals.css'
 

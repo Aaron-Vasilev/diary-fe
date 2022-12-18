@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from '../store/store'
-import { init } from '../store/slices/mainSlice'
-import { Layout } from '../components/Layout'
-import { setCurrentDate, setSelectedDate } from '../store/slices/noteSlice'
-import { today } from '../lib/currentDate'
+import { RootState, useAppDispatch } from '../../store/store'
+import { init } from '../../store/slices/mainSlice'
+import { Layout } from '../../components/Layout'
+import { setCurrentDate, setSelectedDate } from '../../store/slices/noteSlice'
+import { today } from '../../lib/currentDate'
 
 export function Main({ Component, pageProps }) {
   const dispatch = useAppDispatch()
