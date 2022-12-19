@@ -6,17 +6,17 @@ import { Button } from '../../components/Button'
 import { noteApi } from '../../pages/api/noteApi'
 
 export function CreateNote() {
-  const textAreaRef: RefObject<HTMLInputElement> = createRef()
+  const inputRef: RefObject<HTMLDivElement> = createRef()
   const dispatch = useAppDispatch()
 
   async function add() {
-    const text = textAreaRef.current.innerText.trim()
+    const text = inputRef.current.innerText.trim()
     
     if (text.length > 0) {
       const result = await dispatch(addNote(text))
 
       if (result.meta.requestStatus === 'fulfilled') {
-        textAreaRef.current.innerHTML = ''
+        inputRef.current.innerText = ''
         noteApi.removeFromStorage(noteApi.newNote)
       }
     }
@@ -24,24 +24,23 @@ export function CreateNote() {
 
   function saveToStorage() {
     _.debounce(() => {
-      noteApi.setToStorage(noteApi.newNote, textAreaRef.current.innerHTML)
+      noteApi.setToStorage(noteApi.newNote, inputRef.current.innerText)
     }, 10000)()
   }
 
   useEffect(() => {
-    const dataFromStorage = noteApi.getFromStorage(noteApi.newNote)
+    const noteFromStorage = noteApi.getFromStorage(noteApi.newNote)
 
-    if (dataFromStorage) {
-      textAreaRef.current.innerHTML = dataFromStorage
+    if (noteFromStorage) {
+      inputRef.current.innerText = noteFromStorage
     }
-  }, [dispatch, textAreaRef])
+  }, [dispatch, inputRef])
 
   return (
     <>
       <div 
         className="col-span-2 row-start-3 resize-none border-8 border-solid border-primary bg-emerald-50 p-4 shadow-xl outline-none" 
-        // @ts-ignore
-        ref={textAreaRef}
+        ref={inputRef}
         onInput={saveToStorage}
         contentEditable
       />
