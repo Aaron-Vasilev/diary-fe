@@ -1,11 +1,12 @@
-import { Fragment, useEffect, useState } from 'react'
-import Router, { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import Router from 'next/router'
 import { Input } from '../../components/Input'
 import { RootState, useAppDispatch } from '../../store/store'
 import { useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
+import { register } from '../../store/slices/mainSlice'
 
-function Auth() {
+function Register() {
   const dispatch = useAppDispatch()
   const userId = useSelector((state: RootState) => state.main.userId)
 
@@ -29,7 +30,7 @@ function Auth() {
   }
   
   function passwordHandler(value: string) {
-    const isValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)
+    const isValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&-_]{8,}$/.test(value)
     setPassword(value)
     setPasswordValid(true)
 
@@ -50,8 +51,21 @@ function Auth() {
     Router.push('/login')
   }
 
-  function register() {
-    Router.push('/register')
+  async function registerUser() {
+    if (emailValid === false || passwordValid === false || repeatPassValid === false) {
+      return 
+    }
+
+    const result = await dispatch(register({
+      email,
+      password,
+      firstName,
+      secondName,
+    }))
+
+    if (result.meta.requestStatus === "fulfilled") {
+      toLogin()
+    }
   }
 
   useEffect(() => {
@@ -67,7 +81,7 @@ function Auth() {
   },[userId])
 
   return (
-    <Fragment>
+    <>
       <div className="flex w-screen justify-center">
         <div className="flex flex-col gap-2 border-sky-400">
           <label>
@@ -98,14 +112,14 @@ function Auth() {
             />
             <Button
               label="Register"
-              handler={register}
+              handler={registerUser}
               size="S"
             />
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 
-export default Auth
+export default Register

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { Login } from '../../store/slices/mainSlice'
+import { ERROR } from '../../utils/consts'
 import { Api } from './axios'
 
 interface UserData {
@@ -8,7 +8,20 @@ interface UserData {
   secondName: string
 }
 
+export interface Login {
+  email: string
+  password: string
+}
+
+export interface Register {
+  email: string
+  firstName: string
+  secondName: string
+  password: string
+}
+
 class AuthApi extends Api {
+
   async login(data: Login): Promise<UserData | void> {
     try {
       const { token } = await this.post('login', data)
@@ -16,6 +29,15 @@ class AuthApi extends Api {
       this.setToStorage(this.accessToken, token)
       return this.init()
     } catch (e) {
+    }
+  }
+
+  async register(data: Register): Promise<number> {
+    try {
+      return await this.post('register', data)
+    } catch (e) {
+      console.error(e)
+      return ERROR
     }
   }
 
