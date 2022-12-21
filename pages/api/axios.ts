@@ -1,8 +1,10 @@
 import axios, { AxiosRequestConfig } from "axios"
 
+const URL = 'https://be-diary.herokuapp.com'
+
 export class Api {
   instance = axios.create({
-    baseURL: process.env.HOST,
+    baseURL: URL,
   })
 
   accessToken = 'accessToken'
