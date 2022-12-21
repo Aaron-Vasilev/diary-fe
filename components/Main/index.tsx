@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../store/store'
-import { init } from '../../store/slices/mainSlice'
+import { init, logout } from '../../store/slices/mainSlice'
 import { Layout } from '../../components/Layout'
 import { setCurrentDate, setSelectedDate } from '../../store/slices/noteSlice'
 import { today } from '../../lib/currentDate'
+import { Button } from '../Button'
 
 export function Main({ Component, pageProps }) {
   const dispatch = useAppDispatch()
@@ -20,6 +21,10 @@ export function Main({ Component, pageProps }) {
   return (
     <Layout>
       {isLoading ? <h1>Loading...</h1> : <Component {...pageProps} /> }
+      <Button 
+        label="Log Out"
+        handler={() => dispatch(logout())}
+      />
     </Layout>
   )
 }

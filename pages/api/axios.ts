@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios"
 
 export class Api {
   instance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_HOST,
+    baseURL: process.env.HOST,
   })
 
   accessToken = 'accessToken'
@@ -41,6 +41,6 @@ export class Api {
   }
 
   removeFromStorage(key: string) {
-    localStorage.getItem(key)
+    localStorage.removeItem(key)
   }
 }

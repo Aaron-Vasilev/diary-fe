@@ -31,7 +31,7 @@ export function CreateNote() {
   useEffect(() => {
     const noteFromStorage = noteApi.getFromStorage(noteApi.newNote)
 
-    if (noteFromStorage) {
+    if (noteFromStorage && inputRef.current !== null) {
       inputRef.current.innerText = noteFromStorage
     }
   }, [dispatch, inputRef])

@@ -23,11 +23,16 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     init: (state) => {
+      console.log(777)
       const { userId, firstName, secondName } = authApi.init()
 
       state.userId = userId
       state.firstName = firstName
       state.secondName = secondName
+    },
+    logout: (state) => {
+      authApi.removeFromStorage(authApi.accessToken)
+      mainSlice.caseReducers.init(state)
     },
     setUser: (state, action) => {
       state.userId = action.payload.userId
@@ -52,14 +57,13 @@ export const mainSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(register.rejected, (state, action) => {
-      console.log("🚀 ~ file: mainSlice.ts:55 ~ builder.addCase ~ action", action)
       //@ts-ignore
       state.error = action.payload
       state.isLoading = false
     }) }
 })
 
-export const { setUser, init } = mainSlice.actions
+export const { setUser, init, logout } = mainSlice.actions
 
 export const login = createAsyncThunk<void, Login>(
   '/login',

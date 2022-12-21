@@ -18,7 +18,7 @@ export function NotesHistory() {
 
   return (
     <div className="col-span-2">
-      <h3 className="mb-4 text-xl underline underline-offset-4">Notes History:</h3>
+      <h3 className="mb-4 text-xl underline underline-offset-4">Note History:</h3>
       { notes.length > 0 ? <Notes notes={notes}/> :
         <h2 className="px-4 text-xl">
           You don&apos;t have any notes... Yet 🐣

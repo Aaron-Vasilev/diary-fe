@@ -29,6 +29,7 @@ class AuthApi extends Api {
       this.setToStorage(this.accessToken, token)
       return this.init()
     } catch (e) {
+      console.error('🦀',e)
     }
   }
 
