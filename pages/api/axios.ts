@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios"
 
-const URL = 'https://be-diary.herokuapp.com'
+const URL = process.env.NEXT_PUBLIC_HOST
 
 export class Api {
   instance = axios.create({

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Router from 'next/router'
 import { Input } from '../../components/Input'
 import { RootState, useAppDispatch } from '../../store/store'
@@ -37,7 +37,7 @@ function Login() {
   },[userId])
 
   return (
-    <Fragment>
+    <>
       <div className="flex w-screen justify-center">
         <div className="flex flex-col gap-2 border-sky-400">
           <label>
@@ -62,7 +62,7 @@ function Login() {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 

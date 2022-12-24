@@ -23,7 +23,6 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     init: (state) => {
-      console.log(777)
       const { userId, firstName, secondName } = authApi.init()
 
       state.userId = userId
