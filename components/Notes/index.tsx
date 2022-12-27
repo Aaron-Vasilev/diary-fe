@@ -22,16 +22,16 @@ export function Notes({ notes }: Props) {
 function Note({ note }: Prop) {
 
   return (
-    <div className="border-8 border-solid border-primary p-2 shadow-xl selection:bg-secondary selection:text-white">
+    <div className="whitespace-pre border-8 border-solid border-primary p-2 shadow-xl selection:bg-secondary selection:text-white">
       <h2 className="font-Lilita text-lg underline decoration-dashed underline-offset-4">
         <span className="mr-1 text-2xl">
           Date: 
         </span>
         {note.createdDate}
       </h2>
-      <h3 className="p-2 text-base">
+      <p className="p-2 text-base">
         {note.text}
-      </h3>
+      </p>
     </div>
   )
 }
