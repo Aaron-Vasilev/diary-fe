@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../store/store";
-import { getQuestion } from '../../store/slices/questionSlice'
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
+import { RootState, useAppDispatch } from "../../store/store"
+import { getQuestion } from "../../store/slices/questionSlice"
+import style from "./Question.module.css"
 
 export function Question() {
   const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ export function Question() {
   }, [dispatch, userId, selectedDate])
 
   return (
-    <div>
+    <div className={style.question}>
       <h3 className="text-xl underline underline-offset-4">#{userId} {firstName}&apos;s daily question</h3>
       <h2 className="pl-4 text-2xl">{questionText}</h2>
     </div>

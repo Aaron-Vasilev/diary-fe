@@ -39,7 +39,7 @@ export function CreateNote() {
   return (
     <>
       <div 
-        className="col-span-2 row-start-3 resize-none border-8 border-solid border-primary bg-emerald-50 p-4 shadow-xl outline-none" 
+        className="col-span-2 resize-none border-8 border-solid border-primary bg-emerald-50 p-4 shadow-xl outline-none" 
         ref={inputRef}
         onInput={saveToStorage}
         contentEditable
