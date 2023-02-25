@@ -24,11 +24,3 @@ export function Question() {
     </div>
   )
 }
-
-export async function getServerSideProps() {
-  return {
-    props: { 
-      data 
-    } 
-  }
-}
