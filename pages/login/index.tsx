@@ -42,11 +42,11 @@ function Login() {
         <div className="flex flex-col gap-2 border-sky-400">
           <label>
             <p>Login</p>
-            <Input value={email} hander={setEmail} isValid={isValid}/> 
+            <Input value={email} handler={setEmail} isValid={isValid}/> 
           </label>
           <label>
             <p>Password</p>
-            <Input value={password} hander={setPassword} isValid={isValid} type="password"/> 
+            <Input value={password} handler={setPassword} isValid={isValid} type="password"/> 
           </label>
           <div className="mt-2 flex gap-4 self-center">
             <Button

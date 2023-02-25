@@ -1,13 +1,13 @@
 interface PropType {
   value: string
-  hander: Function
+  handler: Function
   type?: string
   isValid?: boolean
 }
 
 
 export function Input({ 
-  value, hander, type= 'text', isValid = true,
+  value, handler, type= 'text', isValid = true,
 }: PropType) {
 
   return (
@@ -16,7 +16,7 @@ export function Input({
       type={type} 
       value={value}
       required={!isValid}
-      onChange={e => hander(e.target.value)}
+      onChange={e => handler(e.target.value)}
     />
   )
 }

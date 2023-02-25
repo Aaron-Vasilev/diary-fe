@@ -86,23 +86,23 @@ function Register() {
         <div className="flex flex-col gap-2 border-sky-400">
           <label>
             <p>Email*</p>
-            <Input value={email} hander={emailHandler} isValid={emailValid} /> 
+            <Input value={email} handler={emailHandler} isValid={emailValid} /> 
           </label>
           <label>
             <p>First Name</p>
-            <Input value={firstName} hander={setFirstName}/> 
+            <Input value={firstName} handler={setFirstName}/> 
           </label>
           <label>
             <p>Second Name</p>
-            <Input value={secondName} hander={setSecondName}/> 
+            <Input value={secondName} handler={setSecondName}/> 
           </label>
           <label>
             <p>Password*</p>
-            <Input value={password} hander={passwordHandler} type="password" isValid={passwordValid} /> 
+            <Input value={password} handler={passwordHandler} type="password" isValid={passwordValid} /> 
           </label>
           <label>
             <p>Repeat Password*</p>
-            <Input value={repeatPass} hander={repeatPassHandler} type="password" isValid={repeatPassValid}/> 
+            <Input value={repeatPass} handler={repeatPassHandler} type="password" isValid={repeatPassValid}/> 
           </label>
           <div className="mt-2 flex gap-4 self-center">
             <Button

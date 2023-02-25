@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { GetQuestionRes, questionApi } from '../../pages/api/questionApi'
-import { Action, RootState } from '../store'
+import { Question, questionApi } from '../../pages/api/questionApi'
+import { RootState } from '../store'
 
 interface InitialState {
   loading: boolean
@@ -9,11 +9,23 @@ interface InitialState {
   questionDate: string
 }
 
-export const getQuestion = createAsyncThunk<GetQuestionRes, null, { state: RootState }>(
+export const getQuestion = createAsyncThunk<Question, null, { state: RootState }>(
   '/getQuestion',
   async (_, thunkApi) => {
     const shownDate = thunkApi.getState().note.selectedDate
     return await questionApi.getQuestion(shownDate)
+  }
+)
+
+export const updateQuestion = createAsyncThunk<number, string, { state: RootState }>(
+  '/getQuestion',
+  async (text, thunkApi) => {
+    const newQuestion: Question = {
+      id: thunkApi.getState().question.questionId,
+      shownDate: thunkApi.getState().question.questionDate,
+      text,
+    }
+    return await questionApi.updateQuestion(newQuestion)
   }
 )
 

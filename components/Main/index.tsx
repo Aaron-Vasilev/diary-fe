@@ -21,10 +21,6 @@ export function Main({ Component, pageProps }) {
   return (
     <Layout>
       {isLoading ? <h1>Loading...</h1> : <Component {...pageProps} /> }
-      <Button 
-        label="Log Out"
-        handler={() => dispatch(logout())}
-      />
     </Layout>
   )
 }
