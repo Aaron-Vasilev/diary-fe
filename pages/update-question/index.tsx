@@ -19,7 +19,7 @@ export default function QuestionPage() {
     const result = await dispatch(updateQuestion(newQuestion))
 
     if (result.meta.requestStatus === 'fulfilled') {
-      setQuestion('')
+      setQuestion(newQuestion)
     }
   }
 
