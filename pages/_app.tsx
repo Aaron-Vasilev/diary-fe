@@ -1,14 +1,14 @@
 import { Provider } from 'react-redux'
 import { Main } from '../components/Main'
-import { store, RootState } from '../store/store'
+import { wrapper } from '../store/store'
 import '../styles/globals.css'
 
-function MyApp(props) {
+export default function MyApp(rest) {
+  const { store, props } = wrapper.useWrappedStore(rest)
+
   return (
     <Provider store={store}>
-      <Main { ...props } />
+      <Main {...props} />
     </Provider>
   )
 }
-
-export default MyApp

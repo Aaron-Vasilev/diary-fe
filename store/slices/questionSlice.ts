@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
 import { Question, questionApi } from '../../pages/api/questionApi'
 import { RootState } from '../store'
 
@@ -18,7 +19,7 @@ export const getQuestion = createAsyncThunk<Question, null, { state: RootState }
 )
 
 export const updateQuestion = createAsyncThunk<number, string, { state: RootState }>(
-  '/getQuestion',
+  '/updateQuestion',
   async (text, thunkApi) => {
     const newQuestion: Question = {
       id: thunkApi.getState().question.questionId,
@@ -39,20 +40,28 @@ const initialState: InitialState = {
 export const questionSlice = createSlice({
   name: 'question',
   initialState,
-  reducers: {},
+  reducers: {
+    setQuestionText: (state, action) => {
+      state.text = action.payload
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getQuestion.pending, (state) => {
-      state.loading = true
-    })
-    builder.addCase(getQuestion.fulfilled, (state, action) => {
-      state.questionId = action.payload.id
-      state.questionDate = action.payload.shownDate
-      state.text = action.payload.text
-    })
-    builder.addCase(getQuestion.rejected, (state, action) => {
-      state.loading = false
-    })
+    builder
+      .addCase(getQuestion.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(getQuestion.fulfilled, (state, action) => {
+        state.questionId = action.payload.id
+        state.questionDate = action.payload.shownDate
+        state.text = action.payload.text
+      })
+      .addCase(getQuestion.rejected, (state, action) => {
+        state.loading = false
+      })
+      .addCase(HYDRATE, () => {
+        console.log('† line 57 HYDRATE', HYDRATE)
+      })
   },
 })
 
-export const { } = questionSlice.actions
+export const { setQuestionText } = questionSlice.actions

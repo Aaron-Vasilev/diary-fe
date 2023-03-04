@@ -35,28 +35,30 @@ export const noteSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getNotes.pending, (state) => {
-      state.loading = true
-    })
-    builder.addCase(getNotes.fulfilled, (state, action) => {
-      action.payload
-      state.notes = action.payload
-      state.loading = false
-    })
-    builder.addCase(getNotes.rejected, (state) => {
-      state.loading = false
-    })
-    builder.addCase(addNote.pending, (state) => {
-      state.loading = true
-    })
-    builder.addCase(addNote.fulfilled, (state, action) => {
-      action.payload
-      state.notes = [...state.notes, action.payload] 
-      state.loading = false
-    })
-    builder.addCase(addNote.rejected, (state) => {
-      state.loading = false
-    }) },
+    builder
+      .addCase(getNotes.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(getNotes.fulfilled, (state, action) => {
+        action.payload
+        state.notes = action.payload
+        state.loading = false
+      })
+      .addCase(getNotes.rejected, (state) => {
+        state.loading = false
+      })
+      .addCase(addNote.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(addNote.fulfilled, (state, action) => {
+        action.payload
+        state.notes = [...state.notes, action.payload] 
+        state.loading = false
+      })
+      .addCase(addNote.rejected, (state) => {
+        state.loading = false
+      })
+  },
 })
 
 export const { setCurrentDate, setSelectedDate } = noteSlice.actions

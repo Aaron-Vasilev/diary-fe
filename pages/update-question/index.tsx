@@ -1,10 +1,9 @@
 import Router from 'next/router'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Button } from "../../components/Button"
 import { Calendar } from "../../components/Calendar"
-import { Input } from "../../components/Input"
 import { Question } from "../../components/Question"
-import { updateQuestion } from "../../store/slices/questionSlice"
+import { setQuestionText, updateQuestion } from "../../store/slices/questionSlice"
 import { useAppDispatch } from "../../store/store"
 
 export default function QuestionPage() {
@@ -19,13 +18,10 @@ export default function QuestionPage() {
     const result = await dispatch(updateQuestion(newQuestion))
 
     if (result.meta.requestStatus === 'fulfilled') {
-      setQuestion(newQuestion)
+      dispatch(setQuestionText(newQuestion))
+      setQuestion('')
     }
   }
-
-  useEffect(() => {
-    
-  })
 
   return (
     <div
@@ -33,7 +29,10 @@ export default function QuestionPage() {
     >
       <Question />
       <Calendar />
-      <Input value={newQuestion} handler={questionHandler} />
+      <textarea 
+        className="border-4 border-solid border-primary bg-emerald-50 p-4 shadow-xl outline-none required:border-red-500" 
+        onChange={e => questionHandler(e.target.value)}
+      />
       <Button label="To Diary" handler={() => Router.push('/diary')}/>
       <Button label="Change Question" handler={changeQuestion}/>
     </div>

@@ -40,26 +40,28 @@ export const mainSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state) => {
-      state.isLoading = true
-    })
-    builder.addCase(login.fulfilled, (state) => {
-      state.isLoading = false
-    })
-    builder.addCase(login.rejected, (state) => {
-      state.isLoading = false
-    })
-    builder.addCase(register.pending, (state) => {
-      state.isLoading = true
-    })
-    builder.addCase(register.fulfilled, (state) => {
-      state.isLoading = false
-    })
-    builder.addCase(register.rejected, (state, action) => {
-      //@ts-ignore
-      state.error = action.payload
-      state.isLoading = false
-    }) }
+    builder
+      .addCase(login.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(login.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoading = false
+      })
+      .addCase(register.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(register.rejected, (state, action) => {
+        //@ts-ignore
+        state.error = action.payload
+        state.isLoading = false
+      })
+  }
 })
 
 export const { setUser, init, logout } = mainSlice.actions
