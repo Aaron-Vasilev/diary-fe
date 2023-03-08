@@ -32,6 +32,7 @@ export default function QuestionPage() {
       <textarea 
         className="border-4 border-solid border-primary bg-emerald-50 p-4 shadow-xl outline-none required:border-red-500" 
         onChange={e => questionHandler(e.target.value)}
+        value={newQuestion}
       />
       <Button label="To Diary" handler={() => Router.push('/diary')}/>
       <Button label="Change Question" handler={changeQuestion}/>
