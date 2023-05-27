@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { authApi, Login, Register } from '../../pages/api/authApi'
-import { NO_ERROR } from '../../utils/consts'
+import { authApi, Login, RegisterData, User } from '../../pages/api/helper//authApi'
+import { Response } from '../../pages/api/helper/axios'
+import { ERROR, NO_ERROR } from '../../utils/consts'
 
 interface InitialState {
   error: number
@@ -18,7 +19,7 @@ const initialState: InitialState = {
   secondName: '',
 }
 
-export const mainSlice = createSlice({
+export const authSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
@@ -31,7 +32,7 @@ export const mainSlice = createSlice({
     },
     logout: (state) => {
       authApi.removeFromStorage(authApi.accessToken)
-      mainSlice.caseReducers.init(state)
+      authSlice.caseReducers.init(state)
     },
     setUser: (state, action) => {
       state.userId = action.payload.userId
@@ -64,22 +65,23 @@ export const mainSlice = createSlice({
   }
 })
 
-export const { setUser, init, logout } = mainSlice.actions
+export const { setUser, init, logout } = authSlice.actions
 
 export const login = createAsyncThunk<void, Login>(
   '/login',
   async (loginData, thunkApi) => {
-    const data = await authApi.login(loginData)
-    
-    if (data) {
-      thunkApi.dispatch({ type: 'main/setUser', payload: data })
+    const res = await authApi.login(loginData)
+    console.log('† line 73 res', res)
+
+    if (res.error === ERROR) {
+      return thunkApi.rejectWithValue(res.error)
     } else {
-      return thunkApi.rejectWithValue(data)
+      thunkApi.dispatch({ type: 'main/setUser', payload: res.data })
     }
   }
 )
 
-export const register = createAsyncThunk<number, Register>(
+export const register = createAsyncThunk<number, RegisterData>(
   '/register',
   async (registerData, thunkApi) => {
     const result = await authApi.register(registerData)

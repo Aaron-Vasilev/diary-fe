@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Router from 'next/router'
 import { Input } from '../../components/Input'
 import { RootState, useAppDispatch } from '../../store/store'
-import { login } from '../../store/slices/mainSlice'
+import { login } from '../../store/slices/authSlice'
 import { useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
 
@@ -13,11 +13,15 @@ function Login() {
   const [password, setPassword] = useState('')
   const [isValid, setValid] = useState(true)
 
-  async function logIn() {
+  async function logIn(event: FormEvent) {
+    event.preventDefault()
     const result = await dispatch(login({ email, password }))
     
     if (result.meta.requestStatus === 'rejected') {
       setValid(false)
+      setPassword('')
+    } else if (result.meta.requestStatus === 'fulfilled') {
+      Router.push('/diary')
     }
   }
 
@@ -32,9 +36,10 @@ function Login() {
   }
 
   useEffect(() => {
-    if (userId !== 0)
-      Router.push('/diary')
-  },[userId])
+    if (userId !== 0) {
+      Router.push('diary')
+    }
+  }, [userId])
 
   return (
     <>
@@ -48,18 +53,19 @@ function Login() {
             <p>Password</p>
             <Input value={password} handler={setPassword} isValid={isValid} type="password"/> 
           </label>
-          <div className="mt-2 flex gap-4 self-center">
+          <form className="mt-2 flex gap-4 self-center">
             <Button
               label="Login"
               handler={logIn}
               size="S"
+              type="submit"
             />
             <Button
               label="Register"
               handler={toRegister}
               size="S"
             />
-          </div>
+          </form>
         </div>
       </div>
     </>

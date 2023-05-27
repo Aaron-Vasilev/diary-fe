@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { UPDATE_QUESTION_API, UPDATE_QUESTION_ROUTE } from './utils/consts'
 
 export function middleware(request: NextRequest) {
-  const { url } = request
+  const { url, headers } = request
 
-  if (url.includes('question')) {
+  if (url.includes(UPDATE_QUESTION_ROUTE)) {
+  } else {
   }
 
   
@@ -12,5 +14,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/question']
+  matcher: ['/update-question']
 }

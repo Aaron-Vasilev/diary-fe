@@ -4,6 +4,7 @@ interface PropType {
   label: string
   handler: MouseEventHandler<HTMLButtonElement>
   size?: 'S' | 'M' | 'L'
+  type?: 'submit'
 }
 
 export function Button({label, handler, size = 'S'}: PropType) {

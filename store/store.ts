@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 import { useDispatch } from 'react-redux'
-import { mainSlice } from './slices/mainSlice'
+import { authSlice } from './slices/authSlice'
 import { noteSlice } from './slices/noteSlice'
 import { questionSlice } from './slices/questionSlice'
 
 const store = configureStore({
   reducer: {
-    [mainSlice.name]: mainSlice.reducer,
+    [authSlice.name]: authSlice.reducer,
     [noteSlice.name]: noteSlice.reducer,
     [questionSlice.name]: questionSlice.reducer,
   },

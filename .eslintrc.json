@@ -2,10 +2,18 @@
   "rules": {
     "jsx-quotes": ["error", "prefer-double"],
     "object-curly-spacing": "off",
-    "indent": ["error", 2]
+    "@typescript-eslint/indent": ["error", 2, { 
+      "VariableDeclarator": "first",
+      "FunctionExpression": { "body": 1, "parameters": 2 },
+      "CallExpression": { "arguments": "first" },
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "quotes": [2, "single", { "avoidEscape": true }]
+    }]
   },
   "extends": [
     "next",
-    "plugin:tailwindcss/recommended"
+    "plugin:tailwindcss/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ]
 }

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { noteApi } from '../../pages/api/noteApi'
+import { noteApi } from '../../pages/api/helper/noteApi'
+import { ERROR, NO_ERROR } from '../../utils/consts'
 import { RootState } from '../store'
 
 export interface Note {
@@ -45,6 +46,7 @@ export const noteSlice = createSlice({
         state.loading = false
       })
       .addCase(getNotes.rejected, (state) => {
+        console.log('† line 48 rejected')
         state.loading = false
       })
       .addCase(addNote.pending, (state) => {
@@ -66,10 +68,16 @@ export const { setCurrentDate, setSelectedDate } = noteSlice.actions
 export const getNotes = createAsyncThunk<Note[], null, { state: RootState }>(
   '/getNotes',
   async (_, thunkApi) => {
-    return await noteApi.getNotes(
+    const res = await noteApi.getNotes(
       thunkApi.getState().main.userId,
       thunkApi.getState().question.questionId
     )
+
+    if (res.error === ERROR) {
+      thunkApi.rejectWithValue(res.error)
+    } else {
+      return res.data
+    }
   }
 )
 
@@ -83,6 +91,12 @@ export const addNote = createAsyncThunk<Note, string, { state: RootState }>(
       questionId: thunkApi.getState().question.questionId,
     }
 
-    return await noteApi.addNote(newNote)
+    const res = await noteApi.addNote(newNote)
+
+    if (res.error === ERROR) {
+      thunkApi.rejectWithValue(res.error)
+    } else {
+      return res.data
+    }
   }
 )

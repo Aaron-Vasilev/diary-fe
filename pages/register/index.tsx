@@ -4,7 +4,7 @@ import { Input } from '../../components/Input'
 import { RootState, useAppDispatch } from '../../store/store'
 import { useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
-import { register } from '../../store/slices/mainSlice'
+import { register } from '../../store/slices/authSlice'
 
 function Register() {
   const dispatch = useAppDispatch()

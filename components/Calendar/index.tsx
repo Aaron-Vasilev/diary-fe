@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styles from './Calendar.module.css'
-import { today } from "../../lib/currentDate";
+import { today } from "../../lib";
 import { setSelectedDate } from "../../store/slices/noteSlice";
 import { RootState, useAppDispatch } from "../../store/store";
 

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { Question, questionApi } from '../../pages/api/questionApi'
+import { Question, questionApi } from '../../pages/api/helper/questionApi'
+import { NO_ERROR } from '../../utils/consts'
 import { RootState } from '../store'
 
 interface InitialState {
@@ -14,7 +15,13 @@ export const getQuestion = createAsyncThunk<Question, null, { state: RootState }
   '/getQuestion',
   async (_, thunkApi) => {
     const shownDate = thunkApi.getState().note.selectedDate
-    return await questionApi.getQuestion(shownDate)
+    const res = await questionApi.getQuestion(shownDate)
+
+    if (res.error === NO_ERROR) {
+      return res.data
+    } else {
+      return thunkApi.rejectWithValue(res.error)
+    }
   }
 )
 
@@ -26,14 +33,15 @@ export const updateQuestion = createAsyncThunk<number, string, { state: RootStat
       shownDate: thunkApi.getState().question.questionDate,
       text,
     }
+
     return await questionApi.updateQuestion(newQuestion)
   }
 )
 
 const initialState: InitialState = {
-  loading: false,
+  loading: true,
   questionId: 0,
-  text: 'Daily question',
+  text: '',
   questionDate: '',
 }
 
@@ -54,8 +62,9 @@ export const questionSlice = createSlice({
         state.questionId = action.payload.id
         state.questionDate = action.payload.shownDate
         state.text = action.payload.text
+        state.loading = false
       })
-      .addCase(getQuestion.rejected, (state, action) => {
+      .addCase(getQuestion.rejected, (state) => {
         state.loading = false
       })
       .addCase(HYDRATE, () => {

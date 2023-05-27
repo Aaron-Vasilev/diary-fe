@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { useAppDispatch } from '../../store/store'
 import { addNote } from '../../store/slices/noteSlice'
 import { Button } from '../../components/Button'
-import { noteApi } from '../../pages/api/noteApi'
+import { noteApi } from '../../pages/api/helper/noteApi'
 
 export function CreateNote() {
   const inputRef: RefObject<HTMLDivElement> = createRef()
