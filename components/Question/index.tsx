@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { getQuestion } from "../../store/slices/questionSlice"
@@ -6,17 +8,12 @@ import { Spinner } from "../Spinner"
 import style from "./Question.module.css"
 
 export function Question() {
-  const dispatch = useAppDispatch()
   const userId = useSelector((state: RootState) => state.main.userId)
   const firstName = useSelector((state: RootState) => state.main.firstName)
   const questionText = useSelector((state: RootState) => state.question.text)
   const questionLoading = useSelector((state: RootState) => state.question.loading)
   const selectedDate = useSelector((state: RootState) => state.note.selectedDate)
   
-  useEffect(() => {
-    dispatch(getQuestion())
-  }, [dispatch, userId, selectedDate])
-
   if (questionLoading) {
     return <Spinner/>
   }

@@ -1,15 +1,15 @@
+"use client"
+
 import { useEffect, useState } from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/navigation'
 import { Input } from '../../components/Input'
 import { RootState, useAppDispatch } from '../../store/store'
 import { useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
 import { register } from '../../store/slices/authSlice'
 
-function Register() {
-  const dispatch = useAppDispatch()
-  const userId = useSelector((state: RootState) => state.main.userId)
-
+export default function Register() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [secondName, setSecondName] = useState('')
@@ -48,7 +48,7 @@ function Register() {
   }
 
   function toLogin() {
-    Router.push('/login')
+    router.push('/login')
   }
 
   async function registerUser() {
@@ -56,29 +56,9 @@ function Register() {
       return 
     }
 
-    const result = await dispatch(register({
-      email,
-      password,
-      firstName,
-      secondName,
-    }))
-
-    if (result.meta.requestStatus === "fulfilled") {
       toLogin()
     }
-  }
 
-  useEffect(() => {
-    if (userId !== 0)
-      Router.push('/diary')
-
-    if (Router.query.email) {
-      emailHandler(Router.query.email.toString())
-    }
-    if (Router.query.password) {
-      passwordHandler(Router.query.password.toString())
-    }
-  },[userId])
 
   return (
     <>
@@ -121,5 +101,3 @@ function Register() {
     </>
   )
 }
-
-export default Register

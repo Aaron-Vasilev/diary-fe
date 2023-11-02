@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { authApi, Login, RegisterData, User } from '../../pages/api/helper//authApi'
-import { Response } from '../../pages/api/helper/axios'
+import { authApi, Login, RegisterData } from '../../app/api/helper/authApi'
 import { ERROR, NO_ERROR } from '../../utils/consts'
 
 interface InitialState {
@@ -71,7 +70,6 @@ export const login = createAsyncThunk<void, Login>(
   '/login',
   async (loginData, thunkApi) => {
     const res = await authApi.login(loginData)
-    console.log('† line 73 res', res)
 
     if (res.error === ERROR) {
       return thunkApi.rejectWithValue(res.error)

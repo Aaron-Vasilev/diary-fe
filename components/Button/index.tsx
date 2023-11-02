@@ -1,3 +1,5 @@
+"use client"
+
 import { MouseEventHandler } from "react"
 
 interface PropType {

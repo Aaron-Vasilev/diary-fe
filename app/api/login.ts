@@ -8,17 +8,16 @@ import { pool } from '../../utils/db.js'
 interface User {
   id: number
   email: string
-  password_hash: string
-  iv: string
   role: Roles
 }
 
-async function loginHander(req: NextApiRequest, res: NextApiResponse) {
+export default async function(req: NextApiRequest, res: NextApiResponse) {
   let db: PoolClient
   let status = STATUS_CODES.SUCCESS
   let user: User
 
   try {
+    console.log('† line 19 try')
     db = await pool.connect()
     const db_hash: Hash = { iv: '', passwordHash: '' }
     const { email, password } = req.body
@@ -61,6 +60,7 @@ async function loginHander(req: NextApiRequest, res: NextApiResponse) {
         secondName: userQuery.rows[0].secondName,
       }, process.env.JWT_SECRET)
 
+      
       res.status(status).json({ token })
     }
 
@@ -70,8 +70,6 @@ async function loginHander(req: NextApiRequest, res: NextApiResponse) {
     console.error('† line 64 err', err)
     res.status(500).json({ error: err })
   } finally {
-    db.release()
+    db && db.release()
   }
 }
-
-export default loginHander 

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { noteApi } from '../../pages/api/helper/noteApi'
+import { noteApi } from '../../app/api/helper/noteApi'
 import { ERROR, NO_ERROR } from '../../utils/consts'
 import { RootState } from '../store'
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { Question, questionApi } from '../../pages/api/helper/questionApi'
+import { Question, questionApi } from '../../app/api/helper/questionApi'
 import { NO_ERROR } from '../../utils/consts'
 import { RootState } from '../store'
 

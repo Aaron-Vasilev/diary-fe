@@ -1,45 +1,34 @@
-import { FormEvent, useEffect, useState } from 'react'
-import Router from 'next/router'
+"use client"
+
+import { FormEvent,  useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Input } from '../../components/Input'
-import { RootState, useAppDispatch } from '../../store/store'
-import { login } from '../../store/slices/authSlice'
-import { useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
 
-function Login() {
-  const dispatch = useAppDispatch()
-  const userId = useSelector((state: RootState) => state.main.userId)
+export default function Login() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isValid, setValid] = useState(true)
 
   async function logIn(event: FormEvent) {
     event.preventDefault()
-    const result = await dispatch(login({ email, password }))
-    
-    if (result.meta.requestStatus === 'rejected') {
-      setValid(false)
-      setPassword('')
-    } else if (result.meta.requestStatus === 'fulfilled') {
-      Router.push('/diary')
-    }
-  }
-
-  function toRegister() {
-    Router.push({
-      pathname: '/register',
-      query: {
-        email,
-        password
-      }
+      const res = await fetch('/api/login', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
     })
+    const { token } = await res.json()
+
+    if (token) router.push('/diary')
   }
 
-  useEffect(() => {
-    if (userId !== 0) {
-      Router.push('diary')
-    }
-  }, [userId])
+  function register(event: FormEvent) {
+    event.preventDefault()
+    router.push(`/register?email=${email}`)
+  }
 
   return (
     <>
@@ -62,7 +51,7 @@ function Login() {
             />
             <Button
               label="Register"
-              handler={toRegister}
+              handler={register}
               size="S"
             />
           </form>
@@ -71,5 +60,3 @@ function Login() {
     </>
   )
 }
-
-export default Login
