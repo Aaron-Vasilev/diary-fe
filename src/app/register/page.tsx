@@ -1,12 +1,9 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Input } from '../../components/Input'
-import { RootState, useAppDispatch } from '../../store/store'
-import { useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
-import { register } from '../../store/slices/authSlice'
 
 export default function Register() {
   const router = useRouter()

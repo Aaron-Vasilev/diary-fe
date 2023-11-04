@@ -71,12 +71,12 @@ export async function POST(req: NextRequest) {
       return res
     }
 
-    return Response.json('Unauthorized', { status })
+    return NextResponse.json('Unauthorized', { status })
 
   } catch (err) {
     console.error('† line 64 err', err)
     status = STATUS_CODES.INTERNAL_SERVER_ERROR
-    return Response.json('Server Error', { status })
+    return NextResponse.json('Server Error', { status })
   } finally {
     db && db.release()
   }
