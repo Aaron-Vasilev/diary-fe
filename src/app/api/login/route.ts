@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken'
-import { PoolClient } from 'pg'
 import { decrypt, Hash, validStrings } from '../../../lib'
 import { Roles, STATUS_CODES } from '../../../utils/consts'
-import { pool } from '../../../utils/db.js'
+import { db } from '@/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 interface User {
@@ -12,12 +11,10 @@ interface User {
 }
 
 export async function POST(req: NextRequest) {
-  let db: PoolClient
   let status = STATUS_CODES.OK
   let user: User
 
   try {
-    db = await pool.connect()
     const db_hash: Hash = { iv: '', passwordHash: '' }
     const { email, password } = await req.json()
 
@@ -77,7 +74,5 @@ export async function POST(req: NextRequest) {
     console.error('† line 64 err', err)
     status = STATUS_CODES.INTERNAL_SERVER_ERROR
     return NextResponse.json('Server Error', { status })
-  } finally {
-    db && db.release()
   }
 }
