@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { useAppDispatch } from '@/store/store'
 import { addNote } from '@/store/slices/noteSlice'
 import { Button } from '@/components/Button'
+import { InputArea } from '../InputArea'
 
 export function CreateNote() {
   const inputRef: RefObject<HTMLDivElement> = createRef()
@@ -39,11 +40,9 @@ export function CreateNote() {
 
   return (
     <>
-      <div 
-        className="col-span-2 resize-none border-8 border-solid border-primary bg-emerald-50 p-4 shadow-xl outline-none" 
-        ref={inputRef}
-        onInput={saveToStorage}
-        contentEditable
+      <InputArea 
+        outterRef={inputRef}
+        handler={saveToStorage}
       />
       <Button handler={add} label={'Add'} size="M"/>
     </>

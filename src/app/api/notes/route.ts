@@ -33,3 +33,34 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(res.rows[0])
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const token = req.cookies.get('token').value
+    const { userId } = jwt.decode(token) as DecodedToken
+    const id = req.nextUrl.searchParams.get('id')
+
+    const res = await db.query(
+      `DELETE FROM diary.note WHERE id=${id} AND user_id=${userId}`
+    )
+
+    if (res.rowCount) return NextResponse.json({})
+    else return NextResponse.error()
+  } catch (e) {
+    console.log('† line 48 e', e)
+    return NextResponse.error()
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  const token = req.cookies.get('token').value
+  const { userId } = jwt.decode(token) as DecodedToken
+  const { id, text } = await req.json()
+
+  const res = await db.query(
+    `UPDATE diary.note SET text='${text}' WHERE id=${id} AND user_id=${userId};`
+  )
+
+  if (res.rowCount) return NextResponse.json({})
+  else return NextResponse.error()
+}

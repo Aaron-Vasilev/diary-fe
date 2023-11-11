@@ -53,6 +53,26 @@ export const noteSlice = createSlice({
       .addCase(addNote.rejected, (state) => {
         state.loading = false
       })
+      .addCase(deleteNote.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(deleteNote.fulfilled, (state, action) => {
+        state.notes = state.notes.filter(note => note.id !== action.payload)
+        state.loading = false
+      })
+      .addCase(deleteNote.rejected, (state) => {
+        state.loading = false
+      })
+      .addCase(editNote.fulfilled, (state, action) => {
+        state.notes = state.notes.map(note => {
+            console.log('† line 68 action.payload', action.payload)
+          if (note.id === action.payload.id) {
+            note.text = action.payload.text
+            return note
+          }
+          return note
+        })
+      })
   },
 })
 
@@ -81,9 +101,44 @@ export const addNote = createAsyncThunk<Note, string, { state: RootState }>(
         text, 
         createdDate,
         questionId:  thunkApi.getState().question.id 
-      })})
+      })
+    })
+
     if (res.status !== STATUS_CODES.CREATED) {
       return await res.json()
+    }
+  }
+)
+
+export const deleteNote = createAsyncThunk<number, number, { state: RootState }>(
+  '/deleteNote',
+  async (id, _thunkApi) => {
+    const res = await fetch(`/api/notes?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+
+    if (res.status === STATUS_CODES.OK) {
+      return id
+    }
+  }
+)
+
+export const editNote = createAsyncThunk<Note, Note, { state: RootState }>(
+  '/editNote',
+  async (note, _thunkApi) => {
+    const res = await fetch(`/api/notes`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(note)
+    })
+
+    if (res.status === STATUS_CODES.OK) {
+      return note
     }
   }
 )
