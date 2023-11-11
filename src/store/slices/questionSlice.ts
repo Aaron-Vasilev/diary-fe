@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { STATUS_CODES } from '@/utils/consts'
-import { HYDRATE } from 'next-redux-wrapper'
 import { RootState } from '../store'
 
 export interface Question {
@@ -72,9 +71,6 @@ export const questionSlice = createSlice({
       })
       .addCase(getQuestion.rejected, (state) => {
         state.loading = false
-      })
-      .addCase(HYDRATE, () => {
-        console.log('† line 57 HYDRATE', HYDRATE)
       })
   },
 })

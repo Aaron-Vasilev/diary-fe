@@ -1,7 +1,7 @@
 "use client"
 
 import { createRef, RefObject, useEffect } from 'react'
-import _ from 'lodash'
+import { debounce } from 'lodash'
 import { useAppDispatch } from '@/store/store'
 import { addNote } from '@/store/slices/noteSlice'
 import { Button } from '@/components/Button'
@@ -25,7 +25,7 @@ export function CreateNote() {
   }
 
   function saveToStorage() {
-    _.debounce(() => {
+    debounce(() => {
       localStorage.setItem('note', inputRef.current.innerText)
     }, 10000)()
   }
