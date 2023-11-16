@@ -53,14 +53,19 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const token = req.cookies.get('token').value
-  const { userId } = jwt.decode(token) as DecodedToken
-  const { id, text } = await req.json()
+  try {
+    const token = req.cookies.get('token').value
+    const { userId } = jwt.decode(token) as DecodedToken
+    const { id, text } = await req.json()
 
-  const res = await db.query(
-    `UPDATE diary.note SET text='${text}' WHERE id=${id} AND user_id=${userId};`
-  )
+    const res = await db.query(
+        `UPDATE diary.note SET text='${text}' WHERE id=${id} AND user_id=${userId};`
+    )
 
-  if (res.rowCount) return NextResponse.json({})
-  else return NextResponse.error()
+    if (res.rowCount) return NextResponse.json({})
+    else return NextResponse.error()
+  } catch (e) {
+    console.log('† line 68 e', e)
+    return NextResponse.error()
+  }
 }

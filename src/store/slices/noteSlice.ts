@@ -65,7 +65,6 @@ export const noteSlice = createSlice({
       })
       .addCase(editNote.fulfilled, (state, action) => {
         state.notes = state.notes.map(note => {
-            console.log('† line 68 action.payload', action.payload)
           if (note.id === action.payload.id) {
             note.text = action.payload.text
             return note
@@ -115,9 +114,6 @@ export const deleteNote = createAsyncThunk<number, number, { state: RootState }>
   async (id, _thunkApi) => {
     const res = await fetch(`/api/notes?id=${id}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
     })
 
     if (res.status === STATUS_CODES.OK) {
