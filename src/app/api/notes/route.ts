@@ -59,7 +59,7 @@ export async function PUT(req: NextRequest) {
     const { id, text } = await req.json()
 
     const res = await db.query(
-        `UPDATE diary.note SET text=${text} WHERE id=${id} AND user_id=${userId};`
+        `UPDATE diary.note SET text=$1 WHERE id=$2 AND user_id=$3;`, [text, id, userId]
     )
 
     if (res.rowCount) return NextResponse.json({})
