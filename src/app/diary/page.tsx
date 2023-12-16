@@ -1,9 +1,11 @@
+'use client'
+
 import { Question } from '../../components/Question'
 import { NotesHistory } from '../../components/NotesHistory'
 import { Calendar } from '../../components/Calendar'
 import { CreateNote } from '../../components/CreateNote'
 
-export default function Note() {
+export default function Diary() {
 
   return (
     <div

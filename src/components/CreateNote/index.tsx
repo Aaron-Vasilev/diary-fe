@@ -1,5 +1,3 @@
-"use client"
-
 import { createRef, RefObject, useEffect } from 'react'
 import { debounce } from 'lodash'
 import { useAppDispatch } from '@/store/store'

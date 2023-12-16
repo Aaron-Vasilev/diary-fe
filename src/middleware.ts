@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { decodeJwt, jwtVerify } from 'jose'
-import { db } from "@/db"
 import type { NextRequest } from 'next/server'
 import { DecodedToken } from './lib'
 import { Roles } from './utils/consts'

@@ -1,5 +1,3 @@
-"use client"
- 
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { getQuestion } from "../../store/slices/questionSlice"
@@ -10,7 +8,7 @@ import style from "./Question.module.css"
 export function Question() {
   const dispatch = useAppDispatch()
   const userId = useSelector((state: RootState) => state.note.userId)
-  const firstName = useSelector((state: RootState) => state.note.firstName)
+  const name = useSelector((state: RootState) => state.note.name)
   const questionText = useSelector((state: RootState) => state.question.text)
   const loading = useSelector((state: RootState) => state.question.loading)
   const selectedDate = useSelector((state: RootState) => state.note.selectedDate)
@@ -26,7 +24,7 @@ export function Question() {
   return (
     <div className={style.question}>
       <h3 className="text-xl underline underline-offset-4">
-        #{userId} {firstName}&apos;s daily question</h3>
+        #{userId} {name}&apos;s daily question</h3>
       <h2 className="pl-4 text-2xl">{questionText}</h2>
     </div>
   )

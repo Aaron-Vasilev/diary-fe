@@ -1,6 +1,4 @@
-"use client"
-
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
 import styles from './Calendar.module.css'
 import { today } from "../../lib";

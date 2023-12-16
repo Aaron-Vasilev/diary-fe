@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { getNotes } from "../../store/slices/noteSlice"

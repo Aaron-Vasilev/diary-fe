@@ -1,28 +1,27 @@
 import { NextRequest, NextResponse } from "next/server"
-import jwt from 'jsonwebtoken'
 import { db } from "@/db"
 import { Note } from "@/store/slices/noteSlice"
 import { DecodedToken } from "@/lib"
-
+import { decodeJwt } from "jose";
 
 export async function GET(req: NextRequest) {
   const question = req.nextUrl.searchParams.get('question')
   const token = req.cookies.get('token').value
-  const decoded = jwt.decode(token) as DecodedToken
+  const decoded = decodeJwt<DecodedToken>(token)
 
-  const res = await db.query<Note[]>(
+  const result = await db.query<Note[]>(
     `SELECT id, text, created_date AS "createdDate" FROM diary.note WHERE
-     question_id=$1 AND user_id=$2;`, [question, decoded.userId])
+     question_id=$1 AND user_id=$2;`, [question, 1])
 
   return NextResponse.json({
     ...decoded,
-    notes: res.rows, 
+    notes: result.rows, 
   })
 }
 
 export async function POST(req: NextRequest) {
   const token = req.cookies.get('token').value
-  const { userId } = jwt.decode(token) as DecodedToken
+  const { userId } = decodeJwt<DecodedToken>(token) as DecodedToken
   const { text, createdDate, questionId } = await req.json()
 
   const res = await db.query(
@@ -37,7 +36,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const token = req.cookies.get('token').value
-    const { userId } = jwt.decode(token) as DecodedToken
+    const { userId } = decodeJwt<DecodedToken>(token) as DecodedToken
     const id = req.nextUrl.searchParams.get('id')
 
     const res = await db.query(
@@ -55,7 +54,7 @@ export async function DELETE(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const token = req.cookies.get('token').value
-    const { userId } = jwt.decode(token) as DecodedToken
+    const { userId } = decodeJwt<DecodedToken>(token) as DecodedToken
     const { id, text } = await req.json()
 
     const res = await db.query(

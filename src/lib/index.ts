@@ -1,20 +1,14 @@
-import jwt from "jsonwebtoken"
+import { SignJWT } from "jose"
+import { Pool } from '@neondatabase/serverless'
 import { Roles } from "../utils/consts"
-import crypto from "crypto"
 
-const ALGORITHM = 'aes-256-ctr'
-
-export interface Hash {
-  iv: string
-  passwordHash: string
-}
+const alg = 'HS256'
 
 export interface DecodedToken {
   userId: number
-  firstName: string
-  secondName: string
-  iat: number
+  name: string
   role: Roles
+  iat: number
 }
 
 export function today(delimiter = '-'): string {
@@ -60,56 +54,3 @@ export function validStrings(...strs: string[]): boolean {
 
   return isValid
 }
-
-export async function validateJWT(token: string): Promise<DecodedToken> {
-  let decodedToken: DecodedToken
-  const JWT_SECRET = process.env.JWT_SECRET
-
-  if (JWT_SECRET === undefined) {
-    throw new Error('JWT is missing')
-  }
-
-  token = token.slice(7)
-
-  jwt.verify(token, JWT_SECRET, (err, decoded: DecodedToken) => {
-    if (err) {
-      throw new Error('JWT is invalid')
-    } else {
-      decodedToken = decoded
-    }
-  })
-
-  return decodedToken
-}
-
-export function encrypt(text: string): Hash {
-  const iv = crypto.randomBytes(16)
-  const key = process.env.JWT_SECRET
-  
-  if (key === undefined) {
-    throw new Error('PASSWOR_KEY is missing')
-  }
-
-  const cipher = crypto.createCipheriv(ALGORITHM, key, iv)
-
-  const encrypted = Buffer.concat([cipher.update(text), cipher.final()])
-
-  return {
-    iv: iv.toString('hex'),
-    passwordHash: encrypted.toString('hex')
-  }
-}
-
-export function decrypt(hash: Hash): string {
-  const key = process.env.JWT_SECRET
-  
-  if (key === undefined) {
-    throw new Error('PASSWOR_KEY is missing')
-  }
-  const decipher = crypto.createDecipheriv(ALGORITHM, key, Buffer.from(hash.iv, 'hex'))
-
-  const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.passwordHash, 'hex')), decipher.final()])
-
-  return decrpyted.toString()
-}
-

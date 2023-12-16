@@ -11,7 +11,7 @@ export interface Note {
 
 const initialState = {
   userId: 0,
-  firstName: '',
+  name: '',
   loading: false,
   notes: [],
   selectedDate: '',
@@ -26,7 +26,7 @@ export const noteSlice = createSlice({
     },
     setUser: (state, action) => {
       state.userId = action.payload.userId
-      state.firstName = action.payload.firstName
+      state.name = action.payload.name
     },
   },
   extraReducers: (builder) => {
@@ -37,7 +37,7 @@ export const noteSlice = createSlice({
       .addCase(getNotes.fulfilled, (state, action) => {
         state.notes = action.payload.notes
         state.userId = action.payload.userId
-        state.firstName = action.payload.firstName
+        state.name = action.payload.name
         state.loading = false
       })
       .addCase(getNotes.rejected, (state) => {
@@ -77,7 +77,7 @@ export const noteSlice = createSlice({
 
 export const { setSelectedDate, setUser } = noteSlice.actions
 
-export const getNotes = createAsyncThunk<{notes: Note[]} & DecodedToken , null, { state: RootState }>(
+export const getNotes = createAsyncThunk<{notes: Note[]} & DecodedToken, null, { state: RootState }>(
   '/getNotes',
   async (_, thunkApi) => {
     const question = thunkApi.getState().question.id
