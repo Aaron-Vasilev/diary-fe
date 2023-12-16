@@ -5,6 +5,7 @@ import { db } from "@/db"
 import { STATUS_CODES } from "@/utils/consts"
 
 const alg = 'HS256'
+const { private_key } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
@@ -12,7 +13,7 @@ if (admin.apps.length === 0) {
       projectId: process.env.FIREBASE_PROJECT_ID,
       //@ts-ignore
       private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-      private_key: process.env.FIREBASE_PRIVATE_KEY,
+      private_key,
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
     })
   })
