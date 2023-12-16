@@ -1,8 +1,4 @@
-import { SignJWT } from "jose"
-import { Pool } from '@neondatabase/serverless'
 import { Roles } from "../utils/consts"
-
-const alg = 'HS256'
 
 export interface DecodedToken {
   userId: number
