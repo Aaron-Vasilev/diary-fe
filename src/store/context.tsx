@@ -3,7 +3,8 @@
 import { Provider } from "react-redux"
 import { store } from "./store"
 
-export function Providers({ children }: { children: React.ReactNode }) {
+
+export function Context({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
       {children}

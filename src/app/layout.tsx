@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
 import { Layout } from '../components/Layout'
-import { Providers } from '../store/provider'
+import { Context } from '../store/context'
  
 export const metadata: Metadata = {
   title: 'Diary',
@@ -17,9 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Layout>
-          <Providers>
+          <Context>
            {children}
-          </Providers>
+          </Context>
         </Layout>
       </body>
     </html>
