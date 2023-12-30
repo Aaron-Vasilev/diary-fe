@@ -4,8 +4,8 @@ import { Layout } from '../components/Layout'
 import { Context } from '../store/context'
  
 export const metadata: Metadata = {
-  title: 'Diary',
-  description: 'My diary',
+  title: 'One Day One Question',
+  description: 'Diary',
 }
  
 export default function RootLayout({

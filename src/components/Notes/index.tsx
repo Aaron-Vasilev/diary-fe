@@ -23,7 +23,7 @@ interface Prop {
 function Note({ note }: Prop) {
 
   return (
-    <div className="whitespace-pre-line border-8 border-solid border-primary p-2 shadow-xl selection:bg-secondary selection:text-white">
+    <div className="whitespace-pre-line border-8 border-solid border-primary p-2 shadow-xl">
       <div className="flex justify-between">
         <h2 className="font-Lilita text-lg underline decoration-dashed underline-offset-4">
           <span className="mr-1 text-2xl">
