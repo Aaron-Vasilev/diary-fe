@@ -54,3 +54,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({}, { status: STATUS_CODES.NOT_ACCETABLE })
   }
 }
+
+export async function GET(_req: NextRequest) {
+  const res = NextResponse.json({})
+
+  res.cookies.delete('token')
+
+  return res
+}

@@ -24,7 +24,8 @@ export function Question() {
   return (
     <div className={style.question}>
       <h3 className="text-xl underline underline-offset-4">
-        #{userId} {name}&apos;s daily question</h3>
+        #{userId} {name}&apos;s daily question
+      </h3>
       <h2 className="pl-4 text-2xl">{questionText}</h2>
     </div>
   )

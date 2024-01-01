@@ -10,7 +10,7 @@ interface PropType {
 }
 
 export function Button({label, handler, size = 'S'}: PropType) {
-  const style = size === 'S' ? "h-8 min-w-16 text-xl" : 
+  const style = size === 'S' ? "h-8 min-w-[7rem] text-xl" : 
     size === 'M' ? "h-14 min-w-24 text-3xl" : 
       size === 'L' && "h-18 w-32 text-5xl"
     
