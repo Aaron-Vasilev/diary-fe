@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(_req: NextRequest) {
-  const res = NextResponse.json({})
+export async function GET(req: NextRequest) {
+  const res = NextResponse.redirect(new URL('/login', req.url))
 
   res.cookies.delete('token')
 

@@ -8,3 +8,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.name:only-child {
+  width: 100%;
+  text-align: center;
+}
