@@ -5,7 +5,6 @@ import Link from 'next/link'
 
 export function Navigation() {
   const path = usePathname()
-  const isDiary = path.startsWith('/diary')
   const isLogin = path.startsWith('/login')
 
   async function logout() {
@@ -18,21 +17,18 @@ export function Navigation() {
     <nav
       className="flex gap-3 justify-end "
     >
-      {isDiary ?
-        <Link
-          className='underline leading-8'
-          href="/subscribe"
-        >
-          Subscribe
-        </Link> 
-        :
-        <Link
-          className='underline leading-8'
-          href="/diary"
-        >
-          Diary
-        </Link>
-      }
+      <Link
+        className='underline leading-8'
+        href="/diary"
+      >
+        Diary
+      </Link>
+      <Link
+        className='underline leading-8'
+        href="/subscribe"
+      >
+        Subscribe
+      </Link> 
       <Link
         className='underline leading-8'
         href="/"

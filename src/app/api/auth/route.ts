@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import admin from "firebase-admin"
 import { SignJWT } from "jose"
 import { db } from "@/db"
-import { STATUS_CODES } from "@/utils/consts"
+import { STATUS_CODES, alg } from "@/utils/consts"
+import { validatePayPalSub } from "@/lib"
 
-const alg = 'HS256'
 const { private_key } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
 
 if (admin.apps.length === 0) {
@@ -23,19 +23,33 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const token = body.token
-    const decoded = await admin.auth().verifyIdToken(token)
+    const googleToken = await admin.auth().verifyIdToken(token)
 
     const { rows } = 
       await db.query(`INSERT INTO diary.user (email, name)
                       VALUES ($1,$2) ON CONFLICT (email) 
-                      DO UPDATE SET email=$1 RETURNING id, role, name;`,
-                      [decoded.email, decoded.name])
+                      DO UPDATE SET email=$1 RETURNING id,
+                      role, name, subscribed, sub_id;`,
+                      [googleToken.email, googleToken.name])
+
+    let subscribed = rows[0].subscribed
+
+    if (subscribed) {
+      subscribed = await validatePayPalSub(rows[0].sub_id)
+
+      if (!subscribed) {
+        db.query(`UPDATE diary.user SET subscribed=false 
+                  WHERE id=$1;`, [rows[0].id])
+      }
+    }
 
     const data = {
       userId: rows[0].id,
       role: rows[0].role,
       name: rows[0].name,
+      subscribed,
     }
+
     const jwt = await new SignJWT(data)
       .setProtectedHeader({ alg })
       .setExpirationTime('30d')

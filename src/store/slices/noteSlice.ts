@@ -15,6 +15,7 @@ const initialState = {
   loading: false,
   notes: [],
   selectedDate: '',
+  subscribed: false
 }
 
 export const noteSlice = createSlice({
@@ -27,6 +28,7 @@ export const noteSlice = createSlice({
     setUser: (state, action) => {
       state.userId = action.payload.userId
       state.name = action.payload.name
+      state.subscribed = action.payload.subscribed
     },
   },
   extraReducers: (builder) => {

@@ -1,18 +1,18 @@
 "use client"
 
-import { MouseEventHandler } from "react"
+import { MouseEventHandler, ReactNode } from "react"
 
 interface PropType {
   label: string
-  handler: MouseEventHandler<HTMLButtonElement>
+  handler?: MouseEventHandler<HTMLButtonElement>
   size?: 'S' | 'M' | 'L'
   type?: 'submit'
 }
 
-export function Button({label, handler, size = 'S'}: PropType) {
+export function Button({label, handler = () => {}, size = 'S'}: PropType) {
   const style = size === 'S' ? "h-8 min-w-[7rem] text-xl" : 
     size === 'M' ? "h-14 min-w-24 text-3xl" : 
-      size === 'L' && "h-18 w-32 text-5xl"
+      size === 'L' && "h-18 min-w-32 text-5xl"
     
   return (
     <button

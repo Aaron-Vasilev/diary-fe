@@ -1,9 +1,11 @@
 import { Roles } from "../utils/consts"
+import { OAUTH_URL, SUB_URL } from "@/utils/consts"
 
 export interface DecodedToken {
   userId: number
   name: string
   role: Roles
+  subscribed: boolean
   iat: number
 }
 
@@ -49,4 +51,32 @@ export function validStrings(...strs: string[]): boolean {
   })
 
   return isValid
+}
+
+export async function validatePayPalSub(subId: string): Promise<boolean> {
+  try {
+    const oauthRes = await fetch(OAUTH_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + Buffer.from(`${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`).toString('base64')
+      },
+      body: new URLSearchParams({ grant_type: 'client_credentials' })
+    })
+
+    const { access_token } = await oauthRes.json()
+
+    const paypalRes = await fetch(SUB_URL + subId, {
+      headers: {
+        'Authorization': 'Bearer ' + access_token
+      }
+    })
+    const { status } = await paypalRes.json()
+
+    if (status === 'ACTIVE') return true
+  } catch (e) {
+    console.log('† line 76 e', e)
+  }
+
+  return false
 }

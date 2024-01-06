@@ -7,12 +7,6 @@ export enum STATUS_CODES {
   INTERNAL_SERVER_ERROR = 500
 }
 
-export const NO_ERROR = 0
-export const ERROR = 1
-
-export const GET_QUESTION_ROUTE = '/get-qestion'
-export const UPDATE_QUESTION_ROUTE = '/update-question'
-
 export enum Api {
   login = 'login',
   getQuestion = 'getQuestion',
@@ -26,3 +20,16 @@ export enum Roles {
   User = 'user',
   Unauthorized = 'unauthorized'
 }
+
+export const PLANS = {
+  month: process.env.NEXT_PUBLIC_PAYPAL_SUB_MONTH,
+  year: process.env.NEXT_PUBLIC_PAYPAL_SUB_YEAR
+}
+
+export const alg = 'HS256'
+
+const Paypal_prod = "https://api-m.paypal.com"
+const Paypal_sandbox = "https://api-m.sandbox.paypal.com"
+const PAYPAL_URL = process.env.NODE_ENV === "production" ? Paypal_prod : Paypal_sandbox
+export const OAUTH_URL = PAYPAL_URL + '/v1/oauth2/token/'
+export const SUB_URL = PAYPAL_URL + '/v1/billing/subscriptions/'
