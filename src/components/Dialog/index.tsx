@@ -1,3 +1,4 @@
+import style from "./Dialog.module.css"
 import { ReactNode, RefObject, createRef, useEffect } from "react"
 import { Button } from "@/components/Button"
 
@@ -18,21 +19,25 @@ export function Dialog({ isShown, acceptHandler, rejectHandler, children }: Prop
 
   return (
       <dialog
-        className="backdrop:bg-neutral-200 backdrop:opacity-75"
+        className={style.dialog + " p-6 min-h-[30vh] min-w-[50vw] backdrop:bg-neutral-200 backdrop:opacity-75"}
         ref={dialogRef}
       >
-        {children}
-        <div className="flex justify-center gap-4">
-          <Button
-            label="Yes"
-            handler={() => acceptHandler()}
-            size="M"
-          />
-          <Button
-            label="No"
-            handler={() => rejectHandler()}
-            size="M"
-          />
+        <div
+          className="grid gap-4"
+        >
+          {children}
+          <div className="flex justify-center gap-4">
+            <Button
+              label="Yes"
+              handler={() => acceptHandler()}
+              size="M"
+            />
+            <Button
+              label="No"
+              handler={() => rejectHandler()}
+              size="M"
+            />
+          </div>
         </div>
       </dialog>
   )

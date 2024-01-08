@@ -1,3 +1,4 @@
+import { jwtVerify } from "jose"
 import { Roles } from "../utils/consts"
 import { OAUTH_URL, SUB_URL } from "@/utils/consts"
 
@@ -79,4 +80,11 @@ export async function validatePayPalSub(subId: string): Promise<boolean> {
   }
 
   return false
+}
+
+export async function verifyJWT(token: string): Promise<DecodedToken> {
+  const decoded = await jwtVerify<DecodedToken>(token, 
+    new TextEncoder().encode(process.env.JWT_SECRET))
+
+  return decoded.payload
 }

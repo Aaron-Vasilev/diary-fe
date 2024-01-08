@@ -3,7 +3,7 @@ import { Note, deleteNote, editNote } from "@/store/slices/noteSlice"
 import { useAppDispatch } from "@/store/store"
 import EditIcon from "../../../../public/edit.svg"
 import DeleteIcon from "../../../../public/delete.svg"
-import { Dialog } from "@/components/Modal"
+import { Dialog } from "@/components/Dialog"
 import { InputArea } from "@/components/InputArea"
 
 interface Props {
@@ -13,12 +13,12 @@ interface Props {
 export function NotesAction({ note }: Props) {
   const dispatch = useAppDispatch()
   const inputRef: RefObject<HTMLDivElement> = useRef()
-  const [showDelModal, setShowDelModal] = useState(false)
-  const [showEditModal, setShowEditModal] = useState(false)
+  const [showDelDialog, setShowDelDialog] = useState(false)
+  const [showEditDialog, setShowEditDialog] = useState(false)
                
   function delNote() {
     dispatch(deleteNote(note.id))
-    setShowDelModal(false)
+    setShowDelDialog(false)
   }
 
   function editNoteHandler() {
@@ -27,12 +27,12 @@ export function NotesAction({ note }: Props) {
       createdDate: note.createdDate,
       text: inputRef.current.innerText
     }))
-    setShowEditModal(false)
+    setShowEditDialog(false)
   }
 
   function openEditDialog() {
     inputRef.current.innerText = note.text
-    setShowEditModal(true)
+    setShowEditDialog(true)
   }
 
   return (
@@ -45,12 +45,12 @@ export function NotesAction({ note }: Props) {
       />
       <DeleteIcon
         className="cursor-pointer"
-        onClick={() => setShowDelModal(true)} 
+        onClick={() => setShowDelDialog(true)} 
       />
       <Dialog
         acceptHandler={delNote}
-        rejectHandler={() => setShowDelModal(false)}
-        isShown={showDelModal}
+        rejectHandler={() => setShowDelDialog(false)}
+        isShown={showDelDialog}
       >
         <h2 className="font-Lilita text-2xl">
           Do I really want to delete the note?
@@ -58,8 +58,8 @@ export function NotesAction({ note }: Props) {
       </Dialog>
       <Dialog
         acceptHandler={editNoteHandler}
-        rejectHandler={() => setShowEditModal(false)}
-        isShown={showEditModal}
+        rejectHandler={() => setShowEditDialog(false)}
+        isShown={showEditDialog}
       >
         <InputArea
           outterRef={inputRef}

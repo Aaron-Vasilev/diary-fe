@@ -1,31 +1,42 @@
-import { createRef, RefObject, useEffect } from 'react'
+import style from './style.module.css'
+import { createRef, RefObject, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { debounce } from 'lodash'
-import { useAppDispatch } from '@/store/store'
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '@/store/store'
 import { addNote } from '@/store/slices/noteSlice'
 import { Button } from '@/components/Button'
 import { InputArea } from '../InputArea'
+import { Dialog } from '../Dialog'
 
 export function CreateNote() {
-  const inputRef: RefObject<HTMLDivElement> = createRef()
+  const router = useRouter()
   const dispatch = useAppDispatch()
+  const inputRef: RefObject<HTMLDivElement> = createRef()
+  const [showDialog, setShowDialog] = useState(false)
+  const subscribed = useSelector((state: RootState) => state.note.subscribed)
 
   async function add() {
-    const text = inputRef.current.innerText.trim()
-    
-    if (text.length > 0) {
-      const result = await dispatch(addNote(text))
+    if (subscribed) {
+      const text = inputRef.current.innerText.trim()
 
-      if (result.meta.requestStatus === 'fulfilled') {
-        inputRef.current.innerText = ''
-        localStorage.removeItem('note')
+      if (text.length > 0) {
+        const result = await dispatch(addNote(text))
+
+        if (result.meta.requestStatus === 'fulfilled') {
+          inputRef.current.innerText = ''
+          localStorage.removeItem('note')
+        }
       }
+    } else {
+      setShowDialog(true)
     }
   }
 
   function saveToStorage() {
     debounce(() => {
       localStorage.setItem('note', inputRef.current.innerText)
-    }, 10000)()
+    }, 5000)()
   }
 
   useEffect(() => {
@@ -43,6 +54,17 @@ export function CreateNote() {
         handler={saveToStorage}
       />
       <Button handler={add} label={'Add'} size="M"/>
+      <Dialog
+        acceptHandler={() => router.push('/subscribe')}
+        rejectHandler={() => setShowDialog(false)}
+        isShown={showDialog}
+      >
+        <h1
+          className={style.header + ' text-5xl'}
+        >
+          Subscribe?
+        </h1>
+      </Dialog>
     </>
   )
 }

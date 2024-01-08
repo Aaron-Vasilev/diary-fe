@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/db"
 import { Question } from "@/store/slices/questionSlice"
-import { STATUS_CODES } from "@/utils/consts"
+import { Roles, STATUS_CODES } from "@/utils/consts"
+import { verifyJWT } from "@/lib"
 
 export async function GET(req: NextRequest) {
   const date = req.nextUrl.searchParams.get('date')
@@ -17,12 +18,18 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const { text, questionId } = await req.json()
+    const token = req.cookies.get('token')
+    const decodedToken = await verifyJWT(token.value)
+
+    if (decodedToken.role !== Roles.Admin)
+      return NextResponse.json({}, { status: STATUS_CODES.UNAUTHORIZED })
+
     await db.query(`UPDATE diary.question SET text=$1 WHERE id=$2;`, 
                     [text, questionId])
 
     return NextResponse.json({}, { status: STATUS_CODES.OK })
   } catch (e) {
     console.log('† line 23 e', e)
-    return NextResponse.json({}, { status: STATUS_CODES.INTERNAL_SERVER_ERROR })
+    return NextResponse.json({}, { status: STATUS_CODES.UNAUTHORIZED })
   }
 }
