@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import admin from "firebase-admin"
 import { SignJWT } from "jose"
 import { db } from "@/db"
-import { STATUS_CODES, alg } from "@/utils/consts"
+import { Roles, STATUS_CODES, alg } from "@/utils/consts"
 import { validatePayPalSub } from "@/lib"
 
 const { private_key } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
@@ -33,8 +33,9 @@ export async function POST(req: NextRequest) {
                       [googleToken.email, googleToken.name])
 
     let subscribed = rows[0].subscribed
+    const role = rows[0].role
 
-    if (subscribed) {
+    if (subscribed && role !== Roles.Admin) {
       subscribed = await validatePayPalSub(rows[0].sub_id)
 
       if (!subscribed) {
@@ -45,9 +46,9 @@ export async function POST(req: NextRequest) {
 
     const data = {
       userId: rows[0].id,
-      role: rows[0].role,
       name: rows[0].name,
       subscribed,
+      role,
     }
 
     const jwt = await new SignJWT(data)
