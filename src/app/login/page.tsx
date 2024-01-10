@@ -32,12 +32,16 @@ export default function Login() {
       if (res.ok) {
         const user = await res.json()
         dispatch(setUser(user))
-        router.push('/diary')
+        toDiary()
       }
     } catch (e) {
       console.log('† line 36 e', e)
     }
     setLoading(false)
+  }
+
+  function toDiary() {
+    router.push('/diary')
   }
 
   if (loading) return (<Loading/>)
@@ -48,6 +52,11 @@ export default function Login() {
         <Button
           handler={googleSignIn}
           label="Login with GOOGLE"
+        />
+        <Button 
+          label='or continue without login'
+          handler={toDiary}
+          type='secondary'
         />
       </div>
     </div>

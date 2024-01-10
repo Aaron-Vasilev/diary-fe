@@ -7,8 +7,11 @@ import { STATUS_CODES } from "@/utils/consts";
 
 export async function GET(req: NextRequest) {
   const question = req.nextUrl.searchParams.get('question')
-  const token = req.cookies.get('token').value
-  const decoded = decodeJwt<DecodedToken>(token)
+  const token = req.cookies.get('token')
+
+  if (token === undefined) return NextResponse.json({ notes: [] })
+
+  const decoded = decodeJwt<DecodedToken>(token.value)
 
   const result = await db.query<Note[]>(
     `SELECT id, text, created_date AS "createdDate" FROM diary.note WHERE
@@ -44,7 +47,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const token = req.cookies.get('token').value
-    const { userId, subscribed } = decodeJwt<DecodedToken>(token) as DecodedToken
+    const { userId, subscribed } = await verifyJWT(token)
     const id = req.nextUrl.searchParams.get('id')
 
     if (!subscribed) throw new Error("Unsubscribed")

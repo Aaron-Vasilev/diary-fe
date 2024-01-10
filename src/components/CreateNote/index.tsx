@@ -14,6 +14,7 @@ export function CreateNote() {
   const dispatch = useAppDispatch()
   const inputRef: RefObject<HTMLDivElement> = createRef()
   const [showDialog, setShowDialog] = useState(false)
+  const userId = useSelector((state: RootState) => state.note.userId)
   const subscribed = useSelector((state: RootState) => state.note.subscribed)
 
   async function add() {
@@ -39,6 +40,16 @@ export function CreateNote() {
     }, 5000)()
   }
 
+  function dialogHandler() {
+    if (userId === 0) router.push('/login')
+    else router.push('/subscribe')
+  }
+
+  function dialogText() {
+    if (userId === 0) return 'To add your note, you need to login.<br/>Login?'
+    return 'To add more notes you need to subscribe.<br/>Subscribe?'
+  }
+
   useEffect(() => {
     const noteFromStorage = localStorage.getItem('note')
 
@@ -53,17 +64,20 @@ export function CreateNote() {
         outterRef={inputRef}
         handler={saveToStorage}
       />
-      <Button handler={add} label={'Add'} size="M"/>
+      <Button
+        handler={add}
+        label="Add"
+        size="M"
+      />
       <Dialog
-        acceptHandler={() => router.push('/subscribe')}
+        acceptHandler={dialogHandler}
         rejectHandler={() => setShowDialog(false)}
         isShown={showDialog}
       >
         <h1
           className={style.header + ' text-5xl'}
-        >
-          Subscribe?
-        </h1>
+          dangerouslySetInnerHTML={{ __html: dialogText()}}
+        />
       </Dialog>
     </>
   )

@@ -6,6 +6,7 @@ import { Roles, STATUS_CODES, alg } from "@/utils/consts"
 import { validatePayPalSub } from "@/lib"
 
 const { private_key } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
+const FREE_LIMIT = 21
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
@@ -34,18 +35,24 @@ export async function POST(req: NextRequest) {
 
     let subscribed = rows[0].subscribed
     const role = rows[0].role
+    const userId = rows[0].id
 
     if (subscribed && role !== Roles.Admin) {
       subscribed = await validatePayPalSub(rows[0].sub_id)
 
       if (!subscribed) {
         db.query(`UPDATE diary.user SET subscribed=false 
-                  WHERE id=$1;`, [rows[0].id])
+                  WHERE id=$1;`, [userId])
       }
     }
 
+    const result = await db.query(`SELECT COUNT(*) FROM diary.note
+                                   WHERE user_id=$1;`, [userId])
+
+    if (+result.rows[0].count <= FREE_LIMIT) subscribed = true
+
     const data = {
-      userId: rows[0].id,
+      userId,
       name: rows[0].name,
       subscribed,
       role,

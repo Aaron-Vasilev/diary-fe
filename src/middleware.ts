@@ -7,7 +7,7 @@ export const config = {
   matcher: ['/diary/', '/login/', '/update-question/', '/subscribe/:path*']
 }
 
-const notProtectedRoutes = ['/login/']
+const notProtectedRoutes = ['/login/', '/diary/']
 const adminRoutes = ['/update-question/']
 
 function isProtectedRoute(path: string) {

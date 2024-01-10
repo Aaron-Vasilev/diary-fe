@@ -11,7 +11,7 @@ export interface Note {
 
 const initialState = {
   userId: 0,
-  name: '',
+  name: 'Anon',
   loading: false,
   notes: [],
   selectedDate: '',
@@ -26,9 +26,11 @@ export const noteSlice = createSlice({
       state.selectedDate = action.payload
     },
     setUser: (state, action) => {
-      state.userId = action.payload.userId
-      state.name = action.payload.name
-      state.subscribed = action.payload.subscribed
+      if (action.payload.userId) {
+        state.userId = action.payload.userId
+        state.name = action.payload.name
+        state.subscribed = action.payload.subscribed
+      }
     },
   },
   extraReducers: (builder) => {
@@ -38,9 +40,11 @@ export const noteSlice = createSlice({
       })
       .addCase(getNotes.fulfilled, (state, action) => {
         state.notes = action.payload.notes
-        state.userId = action.payload.userId
-        state.name = action.payload.name
         state.loading = false
+        if (action.payload.userId) {
+          state.userId = action.payload.userId
+          state.name = action.payload.name
+        }
       })
       .addCase(getNotes.rejected, (state) => {
         state.loading = false
