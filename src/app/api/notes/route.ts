@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
   const result = await db.query<Note[]>(
     `SELECT id, text, created_date AS "createdDate" FROM diary.note WHERE
-     question_id=$1 AND user_id=$2;`, [question, 1])
+     question_id=$1 AND user_id=$2;`, [question, decoded.userId])
 
   return NextResponse.json({
     ...decoded,
