@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
-import { SignJWT, decodeJwt } from "jose"
-import { DecodedToken, validatePayPalSub } from "@/lib"
-import { STATUS_CODES, alg } from "@/utils/consts"
+import { decodeJwt } from "jose"
+import { DecodedToken, signJWT, validatePayPalSub } from "@/lib"
+import { STATUS_CODES } from "@/utils/consts"
 import { db } from "@/db"
 
 export async function POST(req: NextRequest) {
@@ -18,10 +18,7 @@ export async function POST(req: NextRequest) {
 
       decoded.subscribed = validSub
 
-      token = await new SignJWT(decoded)
-        .setProtectedHeader({ alg })
-        .setExpirationTime('30d')
-        .sign(new TextEncoder().encode(process.env.JWT_SECRET))
+      token = await signJWT(decoded)
     }
 
     const res = NextResponse.json(decoded)

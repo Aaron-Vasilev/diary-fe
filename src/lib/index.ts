@@ -1,4 +1,4 @@
-import { jwtVerify } from "jose"
+import { JWTPayload, SignJWT, jwtVerify } from "jose"
 import { Roles } from "../utils/consts"
 import { OAUTH_URL, SUB_URL } from "@/utils/consts"
 
@@ -87,4 +87,15 @@ export async function verifyJWT(token: string): Promise<DecodedToken> {
     new TextEncoder().encode(process.env.JWT_SECRET))
 
   return decoded.payload
+}
+
+const alg = 'HS256'
+
+export async function signJWT(decoded: any): Promise<string> {
+  const token = await new SignJWT(decoded)
+    .setProtectedHeader({ alg })
+    .setExpirationTime('21d')
+    .sign(new TextEncoder().encode(process.env.JWT_SECRET))
+
+  return token
 }

@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import admin from "firebase-admin"
 import { SignJWT } from "jose"
 import { db } from "@/db"
-import { Roles, STATUS_CODES, alg } from "@/utils/consts"
-import { validatePayPalSub } from "@/lib"
+import { Roles, STATUS_CODES } from "@/utils/consts"
+import { signJWT, validatePayPalSub } from "@/lib"
 
 const { private_key } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
 const FREE_LIMIT = 21
@@ -58,10 +58,7 @@ export async function POST(req: NextRequest) {
       role,
     }
 
-    const jwt = await new SignJWT(data)
-      .setProtectedHeader({ alg })
-      .setExpirationTime('30d')
-      .sign(new TextEncoder().encode(process.env.JWT_SECRET))
+    const jwt = await signJWT(data)
 
     const res = NextResponse.json(data)
     res.cookies.set({

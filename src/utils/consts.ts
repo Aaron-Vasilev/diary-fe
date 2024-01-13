@@ -26,8 +26,6 @@ export const PLANS = {
   year: process.env.NEXT_PUBLIC_PAYPAL_SUB_YEAR
 }
 
-export const alg = 'HS256'
-
 const Paypal_prod = "https://api-m.paypal.com"
 const Paypal_sandbox = "https://api-m.sandbox.paypal.com"
 const PAYPAL_URL = process.env.NODE_ENV === "production" ? Paypal_prod : Paypal_sandbox
