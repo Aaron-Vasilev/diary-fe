@@ -1,8 +1,6 @@
 .calendar {
   color: white;
-  max-width: fit-content;
   padding: 0.5rem 0.5rem;
-  height: -webkit-fill-available;
 }
 
 .calendar:focus{
@@ -14,11 +12,4 @@
   filter: invert(1);
   width: 2.6rem;
   height: 2.6rem;
-}
-
-@media only screen and (max-width: 640px) {
-  .calendar {
-    grid-column: span 2/span 2;
-    grid-row-start: 1;
-  }
 }

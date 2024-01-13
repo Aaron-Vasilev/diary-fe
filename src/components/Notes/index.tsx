@@ -21,7 +21,6 @@ interface Prop {
 }
 
 function Note({ note }: Prop) {
-
   return (
     <div className="whitespace-pre-line border-8 border-solid border-primary p-2 shadow-xl">
       <div className="flex justify-between">

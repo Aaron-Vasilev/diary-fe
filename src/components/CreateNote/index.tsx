@@ -1,3 +1,5 @@
+'use client'
+
 import style from './style.module.css'
 import { createRef, RefObject, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'

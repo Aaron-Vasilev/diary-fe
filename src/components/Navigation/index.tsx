@@ -23,7 +23,7 @@ export function Navigation() {
 
   return (
     <nav
-      className="flex gap-3 justify-end "
+      className="flex flex-col gap-3 justify-end md:flex-row"
     >
       <Link
         className='underline leading-8'

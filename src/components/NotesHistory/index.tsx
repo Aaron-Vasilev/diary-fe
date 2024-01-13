@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { getNotes } from "../../store/slices/noteSlice"
@@ -14,7 +16,7 @@ export function NotesHistory() {
   }, [dispatch, questionId])
 
   return (
-    <div className="col-span-2">
+    <div className="md:col-span-2">
       <h3 className="mb-4 text-xl underline underline-offset-4">Note History:</h3>
       {notes.length > 0 ? <Notes notes={notes}/> :
         <h2 className="px-4 text-xl">
