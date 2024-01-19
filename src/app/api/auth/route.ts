@@ -44,12 +44,14 @@ export async function POST(req: NextRequest) {
         db.query(`UPDATE diary.user SET subscribed=false 
                   WHERE id=$1;`, [userId])
       }
+    } else {
+      const result = await db.query(`SELECT COUNT(*) FROM diary.note
+                                     WHERE user_id=$1;`, [userId])
+
+      if (+result.rows[0].count <= FREE_LIMIT) subscribed = true
     }
 
-    const result = await db.query(`SELECT COUNT(*) FROM diary.note
-                                   WHERE user_id=$1;`, [userId])
-
-    if (+result.rows[0].count <= FREE_LIMIT) subscribed = true
+    if (role === Roles.Admin) subscribed = true
 
     const data = {
       userId,

@@ -58,7 +58,7 @@ export function CreateNote() {
     if (noteFromStorage && inputRef.current !== null) {
       inputRef.current.innerText = noteFromStorage
     }
-  }, [dispatch, inputRef])
+  }, [dispatch])
 
   return (
     <>
