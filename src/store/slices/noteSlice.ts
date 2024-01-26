@@ -44,6 +44,7 @@ export const noteSlice = createSlice({
         if (action.payload.userId) {
           state.userId = action.payload.userId
           state.name = action.payload.name
+          state.subscribed = action.payload.subscribed
         }
       })
       .addCase(getNotes.rejected, (state) => {
