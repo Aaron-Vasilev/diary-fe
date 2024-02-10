@@ -29,30 +29,30 @@ function forAdmins(path:string) {
 }
 
 export async function middleware(request: NextRequest) {
-  const path = request.nextUrl.pathname
-  const token = request.cookies.get('token')
-
-  if (isProtectedRoute(path)) {
-    if (!token) return NextResponse.redirect(new URL('/login', request.url))
-    let decodedToken: DecodedToken
-
-    try {
-      decodedToken = await verifyJWT(token.value)
-    } catch (_e) {
-      const response = NextResponse.redirect(new URL('/login', request.url))
-      response.cookies.delete('token')
-
-      return response
-    }
-
-    if (forAdmins(path) && decodedToken.role !== Roles.Admin)
-      return NextResponse.redirect(new URL('/diary', request.url))
-  }
-
-
-  if (token && path.startsWith('/login')) {
-    return NextResponse.redirect(new URL('/diary', request.url))
-  }
+//  const path = request.nextUrl.pathname
+//  const token = request.cookies.get('token')
+//
+//  if (isProtectedRoute(path)) {
+//    if (!token) return NextResponse.redirect(new URL('/login', request.url))
+//    let decodedToken: DecodedToken
+//
+//    try {
+//      decodedToken = await verifyJWT(token.value)
+//    } catch (_e) {
+//      const response = NextResponse.redirect(new URL('/login', request.url))
+//      response.cookies.delete('token')
+//
+//      return response
+//    }
+//
+//    if (forAdmins(path) && decodedToken.role !== Roles.Admin)
+//      return NextResponse.redirect(new URL('/diary', request.url))
+//  }
+//
+//
+//  if (token && path.startsWith('/login')) {
+//    return NextResponse.redirect(new URL('/diary', request.url))
+//  }
 
   return NextResponse.next()
 }

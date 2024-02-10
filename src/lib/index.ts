@@ -1,5 +1,5 @@
-import { JWTPayload, SignJWT, jwtVerify } from "jose"
-import { Roles } from "../utils/consts"
+import { SignJWT, jwtVerify } from "jose"
+import { ACCESS_TOKEN, AUTHORIZATION, Roles } from "../utils/consts"
 import { OAUTH_URL, SUB_URL } from "@/utils/consts"
 
 export interface DecodedToken {
@@ -8,6 +8,44 @@ export interface DecodedToken {
   role: Roles
   subscribed: boolean
   iat: number
+}
+
+type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
+
+export async function call<R>(
+  url: string,
+  method: Method = 'GET',
+  data?: any
+): Promise<R> {
+  try {
+    let res: Response
+
+    const token = localStorage.getItem(ACCESS_TOKEN)
+    const headers = {}
+
+    if (token) headers[AUTHORIZATION] = token
+
+    if (method === 'GET' || method === 'DELETE') {
+      res = await fetch(url, { 
+        headers,
+        method
+      })
+
+    } else {
+      res = await fetch(url, {
+        method,
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+    }
+
+    return await res.json()
+  } catch (e) {
+    console.log('† line 44 e', e)
+  }
 }
 
 export function today(delimiter = '-'): string {
@@ -19,15 +57,6 @@ export function today(delimiter = '-'): string {
   return yyyy + delimiter + mm + delimiter + dd
 }
 
-export function combineUrl(url: string, ...args: string[]) {
-
-  for (const str of args) {
-    url += '/' + str
-  }
-
-  return `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${url}`
-}
-
 export function validDate(date: string): boolean {
   let isValid = true
   const [year, month, day] = date.split('-')
@@ -36,7 +65,7 @@ export function validDate(date: string): boolean {
       typeof month !== 'string' ||
       typeof day   !== 'string') {
     isValid = false
-  } else if (year.length !== 4 || month.length !== 2 || day.length !==2) {
+  } else if (year.length !== 4 || month.length !== 2 || day.length !== 2) {
     isValid = false
   }
 

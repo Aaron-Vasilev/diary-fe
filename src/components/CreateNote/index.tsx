@@ -38,7 +38,8 @@ export function CreateNote() {
 
   function saveToStorage() {
     debounce(() => {
-      localStorage.setItem('note', inputRef.current.innerText)
+      if (inputRef.current)
+        localStorage.setItem('note', inputRef.current.innerText)
     }, 5000)()
   }
 

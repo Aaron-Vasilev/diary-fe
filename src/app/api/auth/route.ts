@@ -62,14 +62,10 @@ export async function POST(req: NextRequest) {
 
     const jwt = await signJWT(data)
 
-    const res = NextResponse.json(data)
-    res.cookies.set({
-      name: 'token',
-      value: jwt,
-      path: '/'
+    return NextResponse.json({
+      token: 'Bearer ' + jwt,
+      user: data
     })
-
-    return res
   } catch (e) {
     console.log('† line 43 e', e)
     return NextResponse.json({}, { status: STATUS_CODES.NOT_ACCETABLE })

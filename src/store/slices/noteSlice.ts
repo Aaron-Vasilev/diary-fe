@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { DecodedToken, today } from '@/lib'
+import { DecodedToken, call, today } from '@/lib'
 import { RootState } from '../store'
 import { STATUS_CODES } from '@/utils/consts'
 
@@ -9,7 +9,16 @@ export interface Note {
   createdDate: string
 }
 
-const initialState = {
+interface State {
+  userId: number
+  name: string
+  loading: boolean
+  notes: Note[],
+  selectedDate: string
+  subscribed: boolean
+}
+
+const initialState: State = {
   userId: 0,
   name: 'Anon',
   loading: false,
@@ -63,34 +72,28 @@ export const noteSlice = createSlice({
       .addCase(deleteNote.pending, (state) => {
         state.loading = true
       })
-      .addCase(deleteNote.fulfilled, (state, action) => {
-        state.notes = state.notes.filter(note => note.id !== action.payload)
+      .addCase(deleteNote.fulfilled, (state, { payload }) => {
+        state.notes = state.notes.filter(note => note.id !== +payload)
         state.loading = false
       })
       .addCase(deleteNote.rejected, (state) => {
         state.loading = false
       })
-      .addCase(editNote.fulfilled, (state, action) => {
-        state.notes = state.notes.map(note => {
-          if (note.id === action.payload.id) {
-            note.text = action.payload.text
-            return note
-          }
-          return note
-        })
+      .addCase(editNote.fulfilled, (state, { payload }) => {
+        const i = state.notes.findIndex(note => note.id === payload.id)
+        state.notes[i].text = payload.text
       })
   },
 })
 
 export const { setSelectedDate, setUser } = noteSlice.actions
 
-export const getNotes = createAsyncThunk<{notes: Note[]} & DecodedToken, null, { state: RootState }>(
+type GetNotes = {notes: Note[]} & DecodedToken
+export const getNotes = createAsyncThunk<GetNotes, null, { state: RootState }>(
   '/getNotes',
   async (_, thunkApi) => {
     const question = thunkApi.getState().question.id
-    const res = await fetch(`/api/notes?question=${question}`)
-
-    return await res.json()
+    return await call<GetNotes>(`/api/notes?question=${question}`)
   }
 )
 
@@ -98,50 +101,25 @@ export const addNote = createAsyncThunk<Note, string, { state: RootState }>(
   '/addNote',
   async (text, thunkApi) => {
     const createdDate = today()
-    const res = await fetch(`/api/notes`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        text, 
-        createdDate,
-        questionId:  thunkApi.getState().question.id 
-      })
-    })
 
-    if (res.status !== STATUS_CODES.CREATED) {
-      return await res.json()
-    }
+    return await call<Note>('/api/notes', 'POST', {
+      text, 
+      createdDate,
+      questionId:  thunkApi.getState().question.id 
+    })
   }
 )
 
 export const deleteNote = createAsyncThunk<number, number, { state: RootState }>(
   '/deleteNote',
   async (id, _thunkApi) => {
-    const res = await fetch(`/api/notes?id=${id}`, {
-      method: 'DELETE',
-    })
-
-    if (res.status === STATUS_CODES.OK) {
-      return id
-    }
+    return await call<number>(`/api/notes?id=${id}`, 'DELETE')
   }
 )
 
 export const editNote = createAsyncThunk<Note, Note, { state: RootState }>(
   '/editNote',
   async (note, _thunkApi) => {
-    const res = await fetch(`/api/notes`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(note)
-    })
-
-    if (res.status === STATUS_CODES.OK) {
-      return note
-    }
+    return await call(`/api/notes`,'PUT', note)
   }
 )

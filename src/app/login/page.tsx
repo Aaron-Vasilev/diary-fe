@@ -8,6 +8,7 @@ import { auth } from '@/utils/firebase'
 import { Button } from '@/components/Button'
 import { useState } from 'react'
 import Loading from './loading'
+import { ACCESS_TOKEN } from '@/utils/consts'
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
@@ -19,18 +20,20 @@ export default function Login() {
     try {
       const provider = new GoogleAuthProvider()
       const credentials = await signInWithPopup(auth, provider)
+      //@ts-ignore
+      const googleToken = credentials.user.accessToken
 
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        //@ts-ignore
-        body: JSON.stringify({ token: credentials.user.accessToken })
+        body: JSON.stringify({ token: googleToken })
       })
 
       if (res.ok) {
-        const user = await res.json()
+        const { user, token } = await res.json()
+        localStorage.setItem(ACCESS_TOKEN, token)
         dispatch(setUser(user))
         toDiary()
       }

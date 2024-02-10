@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
 import { decodeJwt } from "jose"
 import { DecodedToken, signJWT, validatePayPalSub } from "@/lib"
-import { STATUS_CODES } from "@/utils/consts"
+import { AUTHORIZATION, STATUS_CODES } from "@/utils/consts"
 import { db } from "@/db"
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    let token = req.cookies.get('token').value
+    let token = req.headers.get(AUTHORIZATION)
+
+    if (token) token = token.slice(7)
+    else throw Error('No token for subscription')
+
     const decoded = decodeJwt<DecodedToken>(token)
 
     const validSub = await validatePayPalSub(body.subscriptionID)

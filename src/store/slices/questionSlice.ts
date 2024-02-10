@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { STATUS_CODES } from '@/utils/consts'
 import { RootState } from '../store'
+import { call } from '@/lib'
 
 export interface Question {
   id: number
@@ -16,30 +17,18 @@ export const getQuestion = createAsyncThunk<Question, null, { state: RootState }
   '/getQuestion',
   async (_, thunkApi) => {
     const date = thunkApi.getState().note.selectedDate
-    const res = await fetch(`/api/question?date=${date}`)
 
-    return await res.json()
+    return await call(`/api/question?date=${date}`)
   }
 )
 
 export const updateQuestion = createAsyncThunk<number, string, { state: RootState }>(
   '/updateQuestion',
   async (text, thunkApi) => {
-    const res = await fetch(`/api/question`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        text, 
-        questionId:  thunkApi.getState().question.id 
-      })})
-
-    if (res.status !== STATUS_CODES.CREATED) {
-      return await res.json()
-    }
-
-    return thunkApi.rejectWithValue(null)
+    return await call(`/api/question`, 'PUT', {
+      text, 
+      questionId:  thunkApi.getState().question.id 
+    })
   }
 )
 

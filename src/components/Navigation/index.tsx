@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
+import { ACCESS_TOKEN } from '@/utils/consts'
 
 export function Navigation() {
   const router = useRouter()
@@ -12,7 +13,8 @@ export function Navigation() {
   const isLogin = path.startsWith('/login')
 
   async function logout() {
-    await fetch('/api/auth')
+    localStorage.removeItem(ACCESS_TOKEN)
+    toLogin()
   }
 
   function toLogin() {

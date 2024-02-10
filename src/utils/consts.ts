@@ -31,3 +31,6 @@ const Paypal_sandbox = "https://api-m.sandbox.paypal.com"
 const PAYPAL_URL = process.env.NODE_ENV === "production" ? Paypal_prod : Paypal_sandbox
 export const OAUTH_URL = PAYPAL_URL + '/v1/oauth2/token/'
 export const SUB_URL = PAYPAL_URL + '/v1/billing/subscriptions/'
+
+export const AUTHORIZATION = 'Authorization'
+export const ACCESS_TOKEN = 'accessToken'
