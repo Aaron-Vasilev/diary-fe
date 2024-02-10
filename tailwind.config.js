@@ -12,8 +12,8 @@ module.exports = {
         Lilita: "'Lilita One'",
       },
       colors: {
-        primary: 'rgb(140, 255, 251)',
-        secondary: 'rgb(132, 71, 255)',
+        primary: '#a8f5ff',
+        secondary: '#d5a4ed',
         tri: '#ffb2e6'
       },
     },

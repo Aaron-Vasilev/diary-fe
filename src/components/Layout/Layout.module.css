@@ -3,7 +3,7 @@
 }
 
 .header h1 {
-  background-image: linear-gradient(to bottom right, rgba(255, 178, 230, 1), rgba(132, 71, 255, 0.8));
+  background-image: linear-gradient(to bottom right, #8161ff, #752d58);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
