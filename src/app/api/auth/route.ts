@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     const data = {
       userId,
       name: rows[0].name,
-      subscribed,
+      subscribed: true,
       role,
     }
 
