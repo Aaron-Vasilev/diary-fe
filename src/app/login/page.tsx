@@ -6,7 +6,7 @@ import { useAppDispatch } from '@/store/store'
 import { setUser } from '@/store/slices/noteSlice'
 import { auth } from '@/utils/firebase'
 import { Button } from '@/components/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Loading from './loading'
 import { ACCESS_TOKEN } from '@/utils/consts'
 
@@ -36,9 +36,12 @@ export default function Login() {
         localStorage.setItem(ACCESS_TOKEN, token)
         dispatch(setUser(user))
         toDiary()
+      } else {
+        localStorage.removeItem(ACCESS_TOKEN)
       }
     } catch (e) {
       console.log('† line 36 e', e)
+      localStorage.removeItem(ACCESS_TOKEN)
     }
     setLoading(false)
   }
@@ -46,6 +49,11 @@ export default function Login() {
   function toDiary() {
     router.push('/diary')
   }
+
+  useEffect(() => {
+    if (localStorage.getItem(ACCESS_TOKEN))
+      toDiary()
+  }, [])
 
   if (loading) return (<Loading/>)
 
