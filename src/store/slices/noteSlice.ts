@@ -63,13 +63,10 @@ export const noteSlice = createSlice({
         state.loading = true
       })
       .addCase(addNote.fulfilled, (state, action) => {
-        console.log('† line 65 action', action)
-        console.log('† line 65 fulfilled', )
         state.notes = [...state.notes, action.payload] 
         state.loading = false
       })
       .addCase(addNote.rejected, (state) => {
-        console.log('† line 70 rejected', )
         state.loading = false
       })
       .addCase(deleteNote.pending, (state) => {
@@ -115,7 +112,6 @@ export const addNote = createAsyncThunk<Note, string, { state: RootState }>(
       questionId:  thunkApi.getState().question.id 
     })
 
-    console.log('† line 118 res.status', res.status)
     if (res.ok && res.status === STATUS_CODES.CREATED) return await res.json()
     else return thunkApi.rejectWithValue([])
   }
