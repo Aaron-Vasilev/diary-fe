@@ -40,10 +40,12 @@ export async function POST(req: NextRequest) {
        created_date AS "createdDate";`, [userId, text, createdDate, questionId],
     )
 
-    return NextResponse.json(res.rows[0])
+    return NextResponse.json(res.rows[0], {
+      status: STATUS_CODES.CREATED
+    })
   } catch (e) {
     console.log('† line 35 e', e)
-    return NextResponse.json({}, { status: STATUS_CODES.NOT_ACCETABLE })
+    return NextResponse.json([], { status: STATUS_CODES.NOT_ACCETABLE })
   }
 }
 

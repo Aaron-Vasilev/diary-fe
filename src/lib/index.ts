@@ -12,27 +12,25 @@ export interface DecodedToken {
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
-export async function call<R>(
+export async function call(
   url: string,
   method: Method = 'GET',
   data?: any
-): Promise<R> {
+): Promise<Response> {
   try {
-    let res: Response
-
     const token = localStorage.getItem(ACCESS_TOKEN)
     const headers = {}
 
     if (token) headers[AUTHORIZATION] = token
 
     if (method === 'GET' || method === 'DELETE') {
-      res = await fetch(url, { 
+      return await fetch(url, { 
         headers,
         method
       })
 
     } else {
-      res = await fetch(url, {
+      return await fetch(url, {
         method,
         headers: {
           ...headers,
@@ -41,8 +39,6 @@ export async function call<R>(
         body: JSON.stringify(data)
       })
     }
-
-    return await res.json()
   } catch (e) {
     console.log('† line 44 e', e)
   }

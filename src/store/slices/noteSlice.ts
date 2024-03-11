@@ -63,10 +63,13 @@ export const noteSlice = createSlice({
         state.loading = true
       })
       .addCase(addNote.fulfilled, (state, action) => {
+        console.log('† line 65 action', action)
+        console.log('† line 65 fulfilled', )
         state.notes = [...state.notes, action.payload] 
         state.loading = false
       })
       .addCase(addNote.rejected, (state) => {
+        console.log('† line 70 rejected', )
         state.loading = false
       })
       .addCase(deleteNote.pending, (state) => {
@@ -93,7 +96,11 @@ export const getNotes = createAsyncThunk<GetNotes, null, { state: RootState }>(
   '/getNotes',
   async (_, thunkApi) => {
     const question = thunkApi.getState().question.id
-    return await call<GetNotes>(`/api/notes?question=${question}`)
+
+    const res = await call(`/api/notes?question=${question}`)
+
+    if (res.ok) return await res.json()
+    else return thunkApi.rejectWithValue([])
   }
 )
 
@@ -102,24 +109,34 @@ export const addNote = createAsyncThunk<Note, string, { state: RootState }>(
   async (text, thunkApi) => {
     const createdDate = today()
 
-    return await call<Note>('/api/notes', 'POST', {
+    const res = await call('/api/notes', 'POST', {
       text, 
       createdDate,
       questionId:  thunkApi.getState().question.id 
     })
+
+    console.log('† line 118 res.status', res.status)
+    if (res.ok && res.status === STATUS_CODES.CREATED) return await res.json()
+    else return thunkApi.rejectWithValue([])
   }
 )
 
 export const deleteNote = createAsyncThunk<number, number, { state: RootState }>(
   '/deleteNote',
-  async (id, _thunkApi) => {
-    return await call<number>(`/api/notes?id=${id}`, 'DELETE')
+  async (id, thunkApi) => {
+    const res = await call(`/api/notes?id=${id}`, 'DELETE')
+
+    if (res.ok) return await res.json()
+    else return thunkApi.rejectWithValue(null)
   }
 )
 
 export const editNote = createAsyncThunk<Note, Note, { state: RootState }>(
   '/editNote',
-  async (note, _thunkApi) => {
-    return await call(`/api/notes`,'PUT', note)
+  async (note, thunkApi) => {
+    const res = await call(`/api/notes`,'PUT', note)
+
+    if (res.ok) return await res.json()
+    else return thunkApi.rejectWithValue(null)
   }
 )
